@@ -4,37 +4,63 @@ import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import 'swiper/css';
 
-import { Navigation, Pagination } from "swiper/modules";
+import { Autoplay, Navigation, Pagination } from "swiper/modules";
+import { text } from "stream/consumers";
 export default function HeroSection() {
     
     const slides = [
-        'https://img.freepik.com/fotos-gratis/mulheres-felizes-de-encomendar-produtos-de-clientes-empresarios-que-trabalham-em-casa-em-um-backg-branco_1150-8107.jpg?ga=GA1.1.23163951.1734569073&semt=ais_hybrid',
-        'https://img.freepik.com/fotos-gratis/boneca-com-dinheiro_1160-17.jpg?ga=GA1.1.23163951.1734569073&semt=ais_hybrid',
-        'https://img.freepik.com/fotos-gratis/empresarios-em-branco_1385-2446.jpg?ga=GA1.1.23163951.1734569073&semt=ais_hybrid'
+        {
+            image: 'https://img.freepik.com/fotos-gratis/mulheres-felizes-de-encomendar-produtos-de-clientes-empresarios-que-trabalham-em-casa-em-um-backg-branco_1150-8107.jpg?ga=GA1.1.23163951.1734569073&semt=ais_hybrid',
+            text: 'Transforme Sua Vida Financeira!'
+        },
+
+        {
+            image:'https://img.freepik.com/fotos-gratis/boneca-com-dinheiro_1160-17.jpg?ga=GA1.1.23163951.1734569073&semt=ais_hybrid',
+            text: 'Aprenda a construir sua liberdade financeira!'
+        },
+
+        {
+            image: 'https://img.freepik.com/fotos-gratis/empresarios-em-branco_1385-2446.jpg?ga=GA1.1.23163951.1734569073&semt=ais_hybrid',
+            text: 'Transforma sonhos em realidade com investimentos!'
+        }
+    
+       
     ];
 
    
 
     return (
-       <section className=" max-w-screen-xl mx-auto bg-sky-950">
+       <section className=" max-w-screen-xl mx-auto bg-sky-950 shadow-2xl">
         {/* Sliders */}
          <Swiper 
-            modules={[Navigation, Pagination]}
+            modules={[Navigation, Autoplay]}
             navigation
             pagination={{ clickable:true}}
             spaceBetween={50} 
             slidesPerView={1}
+            autoplay={{delay: 3000, disableOnInteraction:false}}
             loop={true}
-            className="w-1/2 float-right"
+            className="w-full mySwiper"
         >
             {/* Iterar sobre o array dos slides */}
             {slides.map((slide, index) => (
-                <SwiperSlide key={index}>
-                    <img 
-                        src={slide} 
-                        alt={`Slide ${index + 1}`} 
-                        className="w-1/2 h-80 object-cover" 
-                    />
+                <SwiperSlide key={index} className="flex">
+                    <div className="relative h-96">
+                         {/* Texto sobreposto */}
+                         <div className="absolute inset-0  bg-opacity-50 flex items-center justify-start left-10">
+                            <div className="px-8 max-w-md text-center md:text-left">
+                                <h2 className="text-4xl font-bold mb-4 sm:text-white text-">{slide.text}</h2>
+                                <p className="text-lg">Adquira Já</p>
+                            </div>
+                        </div>
+                        {/* Imagem de fundo */}
+                        <img 
+                            src={slide.image} 
+                            alt={`Slide ${index + 1}`} 
+                            className="sm:w-1/2 w-full h-full object-cover sm:float-right sm:rounded-full rounded-2xl sm:p-10 p-1 shadow-slate-50" 
+                        />
+                       
+                    </div>
                 </SwiperSlide>
             ))}
          </Swiper>
