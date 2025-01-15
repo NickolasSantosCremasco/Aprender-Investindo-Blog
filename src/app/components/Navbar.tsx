@@ -3,7 +3,7 @@ import {Home,UserRound, Menu, Newspaper, ShoppingBasket, EqualApproximately} fro
 export default function Navbar() {
 
     return (
-        <div className="flex flex-col sm:flex-row items-center justify-between pt-10 py-4 px-10 p-10 max-w-screen-xl mx-auto bg-sky-950 text-white rounded-tr-3xl rounded-tl-3xl shadow-md">
+        <div className="flex flex-col sm:flex-row items-center justify-between pt-7 py-4 px-10 pb-7  max-w-screen-xl mx-auto bg-sky-950 text-white rounded-tr-2xl rounded-tl-2xl shadow-md">
             {/* Logotipo */}
             <a className="text-2xl flex items-center" href="/">
                 <span className="mr-2 text-yellow-400">⚡</span>

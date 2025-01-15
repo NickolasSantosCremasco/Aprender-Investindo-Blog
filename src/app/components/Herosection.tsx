@@ -11,17 +11,20 @@ export default function HeroSection() {
     const slides = [
         {
             image: 'https://img.freepik.com/fotos-gratis/mulheres-felizes-de-encomendar-produtos-de-clientes-empresarios-que-trabalham-em-casa-em-um-backg-branco_1150-8107.jpg?ga=GA1.1.23163951.1734569073&semt=ais_hybrid',
-            text: 'Transforme Sua Vida Financeira!'
+            text: 'Transforme Sua Vida Financeira!',
+            subtext: 'Molde sua realidade e inspire pessoas com seus conhecimentos'
         },
 
         {
             image:'https://img.freepik.com/fotos-gratis/boneca-com-dinheiro_1160-17.jpg?ga=GA1.1.23163951.1734569073&semt=ais_hybrid',
-            text: 'Aprenda a construir sua liberdade financeira!'
+            text: 'Aprenda a construir sua liberdade financeira!',
+            subtext:'Aprenda a iniciar sua jornada no mercado de ações e faça da sua vida um exemplo para os mais novos'
         },
 
         {
             image: 'https://img.freepik.com/fotos-gratis/empresarios-em-branco_1385-2446.jpg?ga=GA1.1.23163951.1734569073&semt=ais_hybrid',
-            text: 'Transforma sonhos em realidade com investimentos!'
+            text: 'Transforma sonhos em realidade com investimentos!',
+            subtext: 'Começe já a investir para mudar não só a sua realidade mas como a de todos presentes na sua vida'
         }
     
        
@@ -30,7 +33,7 @@ export default function HeroSection() {
    
 
     return (
-       <section className=" max-w-screen-xl mx-auto bg-sky-950 shadow-2xl">
+       <section className=" max-w-screen-xl mx-auto bg-sky-950 shadow-2xl p-5">
         {/* Sliders */}
          <Swiper 
             modules={[Navigation, Autoplay]}
@@ -49,8 +52,10 @@ export default function HeroSection() {
                          {/* Texto sobreposto */}
                          <div className="absolute inset-0  bg-opacity-50 flex items-center justify-start left-10">
                             <div className="px-8 max-w-md text-center md:text-left">
+                                <p className="text-yellow-300">Aprender Investindo</p>
                                 <h2 className="text-4xl font-bold mb-4 sm:text-white text-">{slide.text}</h2>
-                                <p className="text-lg">Adquira Já</p>
+                                <p className="text-lg">{slide.subtext}</p>
+                                <button className="bg-amber-400 pl-4 pr-4 p-2 rounded-xl text-sky-800 mt-4">Adquira já</button>
                             </div>
                         </div>
                         {/* Imagem de fundo */}
