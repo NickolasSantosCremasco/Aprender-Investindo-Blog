@@ -60,7 +60,7 @@ export default function NewsSection () {
                     {/* Mainly News */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:w-2/3">
                         {mainNews.map((item) => (
-                            <div key={item.id} className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg transtion-shadow">
+                            <div key={item.id} className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg transtion-shadow cursor-pointer">
                                 <img 
                                     src={item.image} 
                                     alt={item.title}
@@ -80,11 +80,14 @@ export default function NewsSection () {
                             {secondaryNews.map((news) => (
                                 <li
                                     key={news.id}
-                                    className="bg-white p-4 shadow-md rounded-lg hover:shadow-lg transition-shadow"
+                                    className="bg-white p-4 shadow-md rounded-lg hover:shadow-lg transition-shadow flex cursor-pointer"
                                 >
-                                    <h4 className="text-lg font-semibold text-gray-800">{news.title}</h4>
-                                    <p className="text-sm text-gray-400 mt-2">{news.time}</p>
-
+                                    <img src="https://img.freepik.com/fotos-gratis/boneca-com-dinheiro_1160-17.jpg?ga=GA1.1.23163951.1734569073&semt=ais_hybrid" className="object-contain w-24"  alt="" />
+                                    <div>
+                                        <p className="text-yellow-400">Nickolas Cremasco</p>
+                                        <h4 className="text-lg font-semibold text-gray-800">{news.title}</h4>
+                                        <p className="text-sm text-gray-400 mt-2">{news.time}</p>
+                                    </div>
                                 </li>
                             ))}
                         </ul>

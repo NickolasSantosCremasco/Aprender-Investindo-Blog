@@ -1,6 +1,9 @@
 import Navbar from "./components/Navbar";
 import HeroSection from "./components/Herosection";
-import NewsSection from  "./components/NewsSection"
+import NewsSection from  "./components/NewsSection";
+import Features from "./components/FeaturesSection";
+import Footer from "./components/Footer";
+
 export default function Home() {
   return (
     
@@ -9,6 +12,8 @@ export default function Home() {
       <div className='h-[1px] max-w-screen-xl mx-auto bg-sky-800 '></div>
       <HeroSection />
       <NewsSection/>
+      <Features />
+      <Footer />
     </header>
     
     
