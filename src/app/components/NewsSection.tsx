@@ -60,7 +60,7 @@ export default function NewsSection () {
                     {/* Mainly News */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:w-2/3">
                         {mainNews.map((item) => (
-                            <div key={item.id} className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg transtion-shadow cursor-pointer">
+                            <div key={item.id} className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg cursor-pointer hover:scale-105 transition-all">
                                 <img 
                                     src={item.image} 
                                     alt={item.title}

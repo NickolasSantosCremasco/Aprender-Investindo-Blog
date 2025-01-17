@@ -31,7 +31,7 @@ export default function Footer() {
                 <div className="flex flex-col">
                     <h3 className="font-semibold text-lg mb-4">Contato</h3>
                     <p className="text-sm text-gray-300">
-                        Email: <a href="mailto:nck.tec.suporte@gmail.com" className="hover:text-white">nck.tex.suporte@gmail.com</a>
+                        Email: <a href="mailto:nck.tec.suporte@gmail.com" className="hover:text-white">nck.tec.suporte@gmail.com</a>
                     </p>
                     <p>
                         Telefone <a href="tel:+5511998989818" className="hover:text-white">(11) 99898-9818</a>
@@ -46,9 +46,9 @@ export default function Footer() {
             </div>
             {/* Copyrights */}
             <div className="mt-8 border-t border-gray-700 pt-4 text-center text-gray-400 text-sm">
-                © {new Date().getFullYear()} Aprender Investindo. Todos os direitos reservados
-                <a href="" className="hover:text-white">Política de Privacidade</a>
-                <a href="" className="hover:text-white">Termos de Uso</a>
+                © {new Date().getFullYear()} Aprender Investindo. Todos os direitos reservados 
+                <a href="" className="hover:text-white"> Política de Privacidade</a>
+                <a href="" className="hover:text-white">    Termos de Uso</a>
             </div>
         </footer>
     )

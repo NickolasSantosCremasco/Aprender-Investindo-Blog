@@ -47,7 +47,7 @@ export default function Features() {
                 {features.map((feature) => (
                     <div
                         key={feature.id}
-                        className="flex flex-col items-center text-center bg-white p-6 rounded-lg shadow-md hover:shadow-lg hover:scale-105  transition-all"
+                        className="flex flex-col items-center text-center bg-white p-6 rounded-lg shadow-md hover:shadow-lg hover:scale-105 cursor-pointer transition-all"
                     >
                         {/* Image */}
                         <div className=" h-full w-full mb-4">
