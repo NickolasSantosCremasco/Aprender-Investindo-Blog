@@ -7,6 +7,7 @@ export default function Register () {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [message, setMessage] = useState<string>('')
+    const [error, setError] = useState<string>('')
 
     const router = useRouter()
 
@@ -27,14 +28,30 @@ export default function Register () {
                 setMessage(data.message);
                 setEmail('');
                 setPassword('');
+                setError('')
+                hideMessageAfterDelay()
+                
+                setTimeout(() => {
+                    router.push('/');
+                },2000);
+               
             } else {
-                setMessage(data.error || 'Erro ao cadastrar!');
+                setError(data.error)
+                setMessage('')
+                hideMessageAfterDelay()
             }
         } catch( error ) {
             console.error(error);
             setMessage('Erro ao processar o cadastro. Tente novamente!');
         }
     };
+
+    const hideMessageAfterDelay = () => {
+        setTimeout(() => {
+            setMessage('')
+            setError('')
+        },3000);
+    }
     
     return (
         <div className="flex items-center justify-center h-screen bg-gray-100">
@@ -60,6 +77,7 @@ export default function Register () {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
+                            
                             className="w-full mt-1 px-4 py-2 border rounded-lg shadow-sm focus:ring-sky-500 focus:border-sky-500"
                          />
                     </div>
@@ -70,6 +88,10 @@ export default function Register () {
                         Entrar
                     </button>
                 </form>
+                {/* Feedback Messages */}
+                
+                {message && <p style={{color: 'green'}}> {message}</p>}
+                {error && <p style={{color: 'red'}}> {error}</p>}
                 <p className="text-sm text-gray-600 mt-4 text-center">
                     Já possui uma conta? <span className="text-sky-500 hover:underline cursor-pointer" onClick={() => router.push('/pages/login')}>Entrar</span>
                 </p>

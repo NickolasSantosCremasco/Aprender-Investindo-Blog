@@ -31,7 +31,7 @@ export async function POST(req: Request) {
         const insertQuery = 'INSERT INTO usuarios (email) VALUES (?)';
         await db.execute(insertQuery, [email]);
 
-        return NextResponse.json({ message: 'Mail Cadastrado com Sucesso!'});
+        return NextResponse.json({ message: 'Email Cadastrado com Sucesso!'});
     } catch (error: any) {
         console.log(error);
         return NextResponse.json({ error: 'Erro ao salvar no banco de dados.'}, { status: 500})
