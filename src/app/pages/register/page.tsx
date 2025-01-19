@@ -1,25 +1,45 @@
 'use client'
 
 import { useState } from "react";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 
-export default function Login () {
+export default function Register () {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+    const [message, setMessage] = useState<string>('')
 
-    const router = useRouter();
+    const router = useRouter()
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         
-        console.log('Email:', email);
-        console.log('Senha:', password);
-    };
+        try {
+            const response = await fetch('/api/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
+            const data = await response.json();
 
+            if (response.ok) {
+                setMessage(data.message);
+                setEmail('');
+                setPassword('');
+            } else {
+                setMessage(data.error || 'Erro ao cadastrar!');
+            }
+        } catch( error ) {
+            console.error(error);
+            setMessage('Erro ao processar o cadastro. Tente novamente!');
+        }
+    };
+    
     return (
         <div className="flex items-center justify-center h-screen bg-gray-100">
             <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
-                <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
+                <h2 className="text-2xl font-bold mb-6 text-center">Cadastre-se</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
                         <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
@@ -51,7 +71,7 @@ export default function Login () {
                     </button>
                 </form>
                 <p className="text-sm text-gray-600 mt-4 text-center">
-                    Não tem uma conta? <span className="text-sky-500 hover:underline cursor-pointer" onClick={() => router.push('/pages/register')}>Cadastre-se</span>
+                    Já possui uma conta? <span className="text-sky-500 hover:underline cursor-pointer" onClick={() => router.push('/pages/login')}>Entrar</span>
                 </p>
             </div>
         </div>
