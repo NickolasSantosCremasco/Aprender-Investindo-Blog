@@ -2,18 +2,43 @@
 
 import { useState } from "react";
 import { useRouter } from 'next/navigation'
+import React from "react";
 
 export default function Login () {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+    const [message, setMessage] = useState<string>('')
+    const [error, setError] = useState<string>('')
 
     const router = useRouter();
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         
-        console.log('Email:', email);
-        console.log('Senha:', password);
+        try {
+            const response = await fetch('/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({email,password})
+            });
+
+            const data = await response.json()
+            
+            if (response.ok) {
+                setMessage(data.message);
+                setError('');
+                //Redirection to initial page
+                router.push('/');
+            } else {
+                setError(data.error);
+                setMessage('');
+            }
+        } catch (error) {
+            console.error('Erro ao conectar com o servidor:', error);
+            setError('Erro ao conectar com o servidor.');
+        }
     };
 
     return (
@@ -50,6 +75,8 @@ export default function Login () {
                         Entrar
                     </button>
                 </form>
+                {message && <p style={{ color: "green"}}>{message}</p>}
+                {error && <p style={{ color: "red"}}>{error}</p>}
                 <p className="text-sm text-gray-600 mt-4 text-center">
                     Não tem uma conta? <span className="text-sky-500 hover:underline cursor-pointer" onClick={() => router.push('/pages/register')}>Cadastre-se</span>
                 </p>
