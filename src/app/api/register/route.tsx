@@ -27,7 +27,7 @@ export async function POST(req: Request) {
         }
 
         //Verification if email already exists in database
-        const checkQuery = 'SELECT COUNT(*) as count FROM usuarios WHERE email = ?';
+        const checkQuery = 'SELECT COUNT(*) as count FROM contas.usuarios WHERE email = ?';
         const [rows] = await db.execute(checkQuery, [email])
         const {count} = (rows as any)[0];
 
@@ -63,6 +63,7 @@ export async function POST(req: Request) {
             maxAge: 7 * 24 * 60 * 60,
         });
 
+      
         return response;
     } catch (error: any) {
         console.log('Erro ao salvar no banco de dados:',error);

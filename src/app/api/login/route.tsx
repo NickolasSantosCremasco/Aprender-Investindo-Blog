@@ -3,14 +3,6 @@ import mysql from 'mysql2/promise';
 import bcrypt from 'bcryptjs' // Password hash
 import jwt from 'jsonwebtoken'; //For token generation
 
-if (!process.env.DB_HOST || process.env.DB_USER || !process.env.DB_PASSWORD || !process.env.DB_DATABASE ) {
-    throw new Error('As variáveis de anbiente para o banco de dados não estão configuradas!')
-}
-
-if (!process.env.JWT_SECRET) {
-    throw new Error('A variável de ambiente JWT_SECRET não está configurada!');
-}
-
 // Database Config
 const db = mysql.createPool({
     host: process.env.DB_HOST,
@@ -19,15 +11,16 @@ const db = mysql.createPool({
     database: process.env.DB_DATABASE,
 })
 
-
-
 //JWT Secret
 const JWT_SECRET = process.env.JWT_SECRET
 
 // LOGIN ROUTE
 export async function POST(req: Request) {
+    
     try {
+        
         const body = await req.json();
+       
         const { email, password } = body;
 
         //Validation: Check if email and password are provided
@@ -39,7 +32,7 @@ export async function POST(req: Request) {
         }
 
         // Query user by email
-        const query = "SELECT id, email, password FROM usuarios WHERE email = ?";
+        const query = "SELECT id, email, password FROM contas.usuarios WHERE email = ?";
         const [rows] = await db.execute(query, [email]);
         const user = (rows as any)[0];
 
@@ -64,6 +57,8 @@ export async function POST(req: Request) {
             expiresIn: '1h',
         });
 
+      
+
         //Sucess return with token
         return NextResponse.json(
             {
@@ -74,9 +69,12 @@ export async function POST(req: Request) {
         );
     } catch (error: any) {
         console.error('Erro no login:', error);
+        
         return NextResponse.json(
             {error: 'Erro interno no servidor.'},
             { status: 500}
+            
         );
+        
     }
 }

@@ -11,7 +11,7 @@ export default function Navbar() {
     //Verification: if token JWT are present in localStorage
     useEffect(() => {
         const token = localStorage.getItem('authToken'); //Substituition of 'authToken' for the name that is used to save the token
-        setIsAuthenticated(!!token);
+        setIsAuthenticated(!!token); // transform the value in boolean
     }, [])
 
     //logout function
@@ -60,8 +60,9 @@ export default function Navbar() {
                     </li>
                     {isAuthenticated ? (
                          <li className="flex item-center cursor-pointer hover:text-yellow-400 transition-all relative">
-                            <button onClick={handleLogout} className='ml-2 text-sm text-red-500 hover:underline'>
-                                Sair
+                            <button onClick={handleLogout} className='flex ml-2 text-sm text-red-500 hover:underline'>
+                                <LogOut/>
+                               
                             </button>
                         </li>
                     ) : (

@@ -30,9 +30,9 @@ export default function Register () {
                 setPassword('');
                 setError('')
                 hideMessageAfterDelay()
-                
+               
                 setTimeout(() => {
-                    router.push('/');
+                    router.push('/pages/login');
                 },2000);
                
             } else {

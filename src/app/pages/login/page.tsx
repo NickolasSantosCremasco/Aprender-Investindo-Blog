@@ -5,16 +5,17 @@ import { useRouter } from 'next/navigation'
 import React from "react";
 
 export default function Login () {
+
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    const [message, setMessage] = useState<string>('')
-    const [error, setError] = useState<string>('')
+    const [message, setMessage] = useState<string>('');
+    const [error, setError] = useState<string>('');
 
     const router = useRouter();
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        
+       
         try {
             const response = await fetch('/api/login', {
                 method: 'POST',
@@ -27,10 +28,16 @@ export default function Login () {
             const data = await response.json()
             
             if (response.ok) {
+                //save the token in localStorage
+                localStorage.setItem('authToken', data.token)
                 setMessage(data.message);
                 setError('');
+                
                 //Redirection to initial page
-                router.push('/');
+                setTimeout(() => {
+                    router.push('/');
+                }, 2000);
+                
             } else {
                 setError(data.error);
                 setMessage('');
