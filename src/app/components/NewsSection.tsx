@@ -1,60 +1,45 @@
+'use client'
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function NewsSection () {
-    const mainNews = [
+    const router = useRouter()
+
+    const [mainNews, setMainNews] = useState([
         {
             id:1,
             image: 'https://img.freepik.com/fotos-gratis/boneca-com-dinheiro_1160-17.jpg?ga=GA1.1.23163951.1734569073&semt=ais_hybrid',
             title: 'Mercado de Ações em Alta',
             description: 'O índice da bolsa fechou em alta',
-            time: '2 horas atrás'
+            time: '2 horas atrás',
         },
-        {
-            id:2,
-            image: 'https://img.freepik.com/fotos-gratis/boneca-com-dinheiro_1160-17.jpg?ga=GA1.1.23163951.1734569073&semt=ais_hybrid',
-            title: 'Mercado de Ações em Alta',
-            description: 'O índice da bolsa fechou em alta',
-            time: '2 horas atrás'
-        },
-        {
-            id:3,
-            image: 'https://img.freepik.com/fotos-gratis/boneca-com-dinheiro_1160-17.jpg?ga=GA1.1.23163951.1734569073&semt=ais_hybrid',
-            title: 'Mercado de Ações em Alta',
-            description: 'O índice da bolsa fechou em alta',
-            time: '2 horas atrás'
-        },
-        {
-            id:4,
-            image: 'https://img.freepik.com/fotos-gratis/boneca-com-dinheiro_1160-17.jpg?ga=GA1.1.23163951.1734569073&semt=ais_hybrid',
-            title: 'Mercado de Ações em Alta',
-            description: 'O índice da bolsa fechou em alta',
-            time: '2 horas atrás'
-        },
-    ];
-
-    const secondaryNews = [
+    ]);
+    
+    const [secondaryNews, setSecondaryNews] = useState([
         {
             id: 5,
             title: 'Mercado Imobiliário atrai investidores',
-            time: '2 horas atrás'
+            time: '2 horas atrás',
         },
-        {
-            id: 6,
-            title: 'Mercado Imobiliário atrai investidores',
-            time: '2 horas atrás'
-        },
-        {
-            id: 7,
-            title: 'Mercado Imobiliário atrai investidores',
-            time: '2 horas atrás'
-        },
-    ]
+    ])
+      
+    const addNews = () => {
+        const newNews = {
+            id: mainNews.length + 1,
+            image:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaj9TUss4F_qVEhmyzEwEY5QoYCejxGJqwog&s ',
+            title:'Nova Notícia publicada',
+            description:'Descrição',
+            time:'Agora Mesmo',
+        };
+        setMainNews((prevNews) => [...prevNews, newNews])
+    }
     return (
         <section className="max-w-screen-xl mx-auto text-sky-900 shadow-2xl py-16 px-8">
             <div>
                 {/* Titles */}
-                <h3 className='text-xl fnt-smibold pl-4 md:pl-0'>Finanças</h3>
+                <h3 className='text-xl fnt-semibold pl-4 md:pl-0'>Finanças</h3>
                 <h1 className='text-4xl font-bold pl-4 md:pl-0'>Notícias em Tempo Real</h1>
-
+                
                 {/* News Layout */}
                 <div className="flex flex-col lg:flex-row mt-8 gap-8">
                     {/* Mainly News */}
@@ -75,6 +60,7 @@ export default function NewsSection () {
                         ))}
                     </div>
                     <div className="lg:w-1/3">
+                    <button className="border-2 rounded-lg pt-1 pb-1 pl-4 pr-4 hover:scale-105 transition-all hover:bg-yellow-400 float-right cursor-pointer" onClick={() => router.push('/pages/newArticle')}>Novo Artigo</button>
                         <h3 className="text-lg font-semibold mb-4">Últimas Notícias</h3>
                         <ul className="space-y-4">
                             {secondaryNews.map((news) => (
@@ -91,6 +77,7 @@ export default function NewsSection () {
                                 </li>
                             ))}
                         </ul>
+                        
                     </div>
                 </div>
 
