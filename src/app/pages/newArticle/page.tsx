@@ -8,17 +8,30 @@ export default function NewArticle() {
    const [subtitle, setSubtitle] = useState('');
    const [text, setText] = useState('');
    const [image, setImage] = useState<File | null>(null);
+   const [loading, setLoading] = useState(false);
+   const [message, setMessage] = useState<string | null>(null);
 
    const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] //verification if exists any file selected
     if (file) {
-        setImage(file);
+        if(file.size > 5 * 1024 * 1024) {
+            alert('O arquivo deve ter no máximo 5MB.');
+            return
+        }
+        if (!file.type.startsWith('image/')) {
+            alert('Por favor, envie um arquivo válido.');
+            return
+        }
+        setImage(file)
     }
-   }
+   };
 
    const handleSubmit =  async (e: FormEvent) => {
 
     e.preventDefault(); //Avoid the page reload when send the form
+
+    setLoading(true);
+    setMessage(null);   
 
     const formData = new FormData();
     formData.append('title', title);
@@ -29,7 +42,7 @@ export default function NewArticle() {
     }
 
     try {
-        const response = await fetch('/api/article', {
+        const response = await fetch('/api/NewArticle', {
             method: 'POST',
             body: formData,
         });
@@ -42,11 +55,13 @@ export default function NewArticle() {
             setImage(null);
         } else {
             const errorData = await response.json();
-            alert('Erro ao criar o artigo:' + errorData.error);
+            setMessage(`Erro ao criar o artigo: ${errorData.error}`);
         }
     }catch (error) {
         console.error("Erro ao criar o artigo:", error);
-        alert("Erro ao criar o artigo.");
+        setMessage('Erro ao criar o artigo. Tente novamente mais tarde.');
+    } finally {
+        setLoading(false)
     }
    };
 
