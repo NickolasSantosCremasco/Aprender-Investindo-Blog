@@ -3,7 +3,6 @@ import React from "react"
 import { useState, ChangeEvent, FormEvent } from "react"
 
 export default function NewArticle() {
-
    const [title, setTitle] = useState('');
    const [subtitle, setSubtitle] = useState('');
    const [text, setText] = useState('');
@@ -13,27 +12,35 @@ export default function NewArticle() {
 
    const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] //verification if exists any file selected
+    console.log('Arquivo adicionado')
     if (file) {
         if(file.size > 5 * 1024 * 1024) {
             alert('O arquivo deve ter no máximo 5MB.');
             return
         }
         if (!file.type.startsWith('image/')) {
-            alert('Por favor, envie um arquivo válido.');
+            alert('Por favor, envie um arquivo de imagem válido.');
             return
         }
         setImage(file)
+        console.log('Imagem válida', file.name)
     }
    };
 
    const handleSubmit =  async (e: FormEvent) => {
 
-    e.preventDefault(); //Avoid the page reload when send the form
-
+    e.preventDefault(); 
     setLoading(true);
-    setMessage(null);   
+    setMessage(null); 
+    
+    console.log('Enviado artigo')
+    console.log('Título', title)
+    console.log('subtítulo', subtitle)
+    console.log('Texto', text)
+    console.log('Imagem', image?.name)
 
     const formData = new FormData();
+    
     formData.append('title', title);
     formData.append('subtitle', subtitle);
     formData.append('text', text);
@@ -41,21 +48,24 @@ export default function NewArticle() {
         formData.append('image', image)
     }
 
+
     try {
-        const response = await fetch('/api/NewArticle', {
+        const response = await fetch('/api/newArticle', {
             method: 'POST',
             body: formData,
         });
+        console.log('Resposta da API:', response)
         if (response.ok) {
             alert('Artigo Criado com Sucesso!');
-            // Reset the form after send
             setTitle('');
             setText('');
             setSubtitle('');
             setImage(null);
+            console.log('Artigo enviado com sucesso')
         } else {
             const errorData = await response.json();
             setMessage(`Erro ao criar o artigo: ${errorData.error}`);
+            console.error('Erro retornado pela API:', errorData)
         }
     }catch (error) {
         console.error("Erro ao criar o artigo:", error);
@@ -125,11 +135,17 @@ export default function NewArticle() {
                     <div className="text-center">
                         <button 
                             type="submit"
-                            className="px-6 py-2 bg-blue-600 text-white font-medium rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-blue-500 focus:ring-offset-2"
+                            disabled={loading}
+                            className="px-6 py-2 ${loading ? 'bg-blue-500' : 'bg-blue-600} bg-blue-600 text-white font-medium rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-blue-500 focus:ring-offset-2"
                         >
-                            Publicar Artigo
+                            {loading? 'Publicando...':'Publicar Artigo'}
                         </button>
                     </div>
+                    {message && (
+                        <div className="mt-4 p-2 text-white bg-red-500 rounded-md">
+                            {message}
+                        </div>
+                    )}
                 </form>
             </div>
         </div>

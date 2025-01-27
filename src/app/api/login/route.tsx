@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import mysql from 'mysql2/promise';
 import bcrypt from 'bcryptjs' // Password hash
 import jwt from 'jsonwebtoken'; //For token generation
+import { NextRequest } from "next/server";
 
 // Database Config
 const db = mysql.createPool({
@@ -15,7 +16,7 @@ const db = mysql.createPool({
 const JWT_SECRET = process.env.JWT_SECRET
 
 // LOGIN ROUTE
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
     
     try {
         
@@ -60,13 +61,17 @@ export async function POST(req: Request) {
       
 
         //Sucess return with token
-        return NextResponse.json(
-            {
-                message: 'login bem-sucedido',
-                token, // JWT token
-            },
+        const response = NextResponse.json(
+            {message: 'Login bem sucedido!'},
             {status: 200}
         );
+        response.cookies.set('authToken', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            maxAge: 3600,
+        });
+        return response
     } catch (error: any) {
         console.error('Erro no login:', error);
         
