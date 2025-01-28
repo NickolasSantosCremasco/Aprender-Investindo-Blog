@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import mysql from 'mysql2/promise'; 
 import bcrypt from 'bcryptjs'
 import jwt from "jsonwebtoken"; 
-import { NextRequest } from "next/server"; 
+ 
 
 //Database Config
 const db = mysql.createPool({ 
@@ -15,14 +15,14 @@ const db = mysql.createPool({
 const JWT_SECRET = process.env.JWT_SECRET
 
 //REGISTER ROUTE
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
     try {
         const body = await req.json();
-        const { email, password } = body;
+        const { email, password, name } = body;
 
-        if (!email || !password) {
+        if (!email || !password || !name) {
             return NextResponse.json(
-                { error: 'Email e senha são obrigatórios!'}, 
+                { error: 'Email, senha e nome são obrigatórios!'}, 
                 {status:400}
             );
         }
@@ -43,8 +43,8 @@ export async function POST(req: NextRequest) {
         const hashedPassword = await bcrypt.hash(password, 10)
 
         //insertion on database
-        const insertQuery = 'INSERT INTO usuarios (email,password) VALUES (?, ?)';
-        await db.execute(insertQuery, [email, hashedPassword]);
+        const insertQuery = 'INSERT INTO usuarios (email,password, name) VALUES (?, ?, ?)';
+        await db.execute(insertQuery, [email, hashedPassword, name]);
 
         const token = jwt.sign({ email }, JWT_SECRET as string, {
             expiresIn: '7d'

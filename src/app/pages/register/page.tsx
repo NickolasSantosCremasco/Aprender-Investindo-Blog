@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 export default function Register () {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+    const [name, setName] = useState<string>('');
     const [message, setMessage] = useState<string>('')
     const [error, setError] = useState<string>('')
 
@@ -20,7 +21,7 @@ export default function Register () {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, password }),
+                body: JSON.stringify({ email, password, name }),
             });
             const data = await response.json();
 
@@ -28,7 +29,8 @@ export default function Register () {
                 setMessage(data.message);
                 setEmail('');
                 setPassword('');
-                setError('')
+                setName('');
+                setError('');
                 hideMessageAfterDelay()
                
                 setTimeout(() => {
@@ -76,6 +78,18 @@ export default function Register () {
                             id="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                            required
+                            
+                            className="w-full mt-1 px-4 py-2 border rounded-lg shadow-sm focus:ring-sky-500 focus:border-sky-500"
+                         />
+                    </div>
+                    <div className="mb-4">
+                        <label htmlFor="name" className="block text-sm font-medium text-gray-700">Seu Nome <span className="text-blue-500">(Aparecerá ao postar um artigo!)</span></label>
+                        <input 
+                            type="name"
+                            id="name"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
                             required
                             
                             className="w-full mt-1 px-4 py-2 border rounded-lg shadow-sm focus:ring-sky-500 focus:border-sky-500"
