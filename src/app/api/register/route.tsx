@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import mysql from 'mysql2/promise'; 
 import bcrypt from 'bcryptjs'
 import jwt from "jsonwebtoken"; 
- 
+import { NextRequest } from "next/server";
 
 //Database Config
 const db = mysql.createPool({ 
@@ -15,7 +15,7 @@ const db = mysql.createPool({
 const JWT_SECRET = process.env.JWT_SECRET
 
 //REGISTER ROUTE
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
         const { email, password, name } = body;

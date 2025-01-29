@@ -1,38 +1,54 @@
 'use client'
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+interface Article {
+    id: number;
+    title: string;
+    subtitle: string;
+    content: string;
+    image_url: string; 
+    created_at: string;
+  }
 
 export default function NewsSection () {
     const router = useRouter()
 
-    const [mainNews, setMainNews] = useState([
-        {
-            id:1,
-            image: 'https://img.freepik.com/fotos-gratis/boneca-com-dinheiro_1160-17.jpg?ga=GA1.1.23163951.1734569073&semt=ais_hybrid',
-            title: 'Mercado de Ações em Alta',
-            description: 'O índice da bolsa fechou em alta',
-            time: '2 horas atrás',
-        },
-    ]);
-    
-    const [secondaryNews, setSecondaryNews] = useState([
-        {
-            id: 5,
-            title: 'Mercado Imobiliário atrai investidores',
-            time: '2 horas atrás',
-        },
-    ])
+    const [mainNews, setMainNews] = useState<Article[]>([])    
+    const [secondaryNews, setSecondaryNews] = useState<Article[]>([])
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchNews() {
+            try {
+                const response = await fetch('/api/getArticles');
+                const articles = await  response.json();
+              
+                console.log('artigos:',articles)
+                if (articles.length > 0) {
+                    setMainNews(articles[0])
+                    setSecondaryNews(articles.slice(1))
+                }
+                //Organization of the news between de main and secondaries
+                
+            } catch(error) {
+                console.error('Erro ao carregar as notícias:', error);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        fetchNews();    
+    }, [])
       
-    const addNews = () => {
-        const newNews = {
-            id: mainNews.length + 1,
-            image:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaj9TUss4F_qVEhmyzEwEY5QoYCejxGJqwog&s ',
-            title:'Nova Notícia publicada',
-            description:'Descrição',
-            time:'Agora Mesmo',
-        };
-        setMainNews((prevNews) => [...prevNews, newNews])
-    }
+    if (loading) {
+        return (
+            <section className="max-w-screen-xl mx-auto text-sky-900 shadow-2xl py-16 px-8">
+                <p>Carregando as Notícias...</p>
+            </section>
+        );
+    };
+   
     return (
         <section className="max-w-screen-xl mx-auto text-sky-900 shadow-2xl py-16 px-8">
             <div>
@@ -47,14 +63,14 @@ export default function NewsSection () {
                         {mainNews.map((item) => (
                             <div key={item.id} className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg cursor-pointer hover:scale-105 transition-all">
                                 <img 
-                                    src={item.image} 
+                                    src={item.image_url} 
                                     alt={item.title}
                                     className="w-full h-48 object-cover"
                                 />
                                 <div className="p-6">
                                     <h2 className="text-2xl font-bold text-gray-800">{item.title}</h2>
-                                    <p className="text-gray-600 mt-2">{item.description}</p>
-                                    <p className="text-sm text-gray-400 mt-4">{item.time}</p>
+                                    <p className="text-gray-600 mt-2">{item.content}</p>
+                                    <p className="text-sm text-gray-400 mt-4">{item.created_at}</p>
                                 </div>
                             </div>
                         ))}
@@ -72,7 +88,7 @@ export default function NewsSection () {
                                     <div>
                                         <p className="text-yellow-400">Nickolas Cremasco</p>
                                         <h4 className="text-lg font-semibold text-gray-800">{news.title}</h4>
-                                        <p className="text-sm text-gray-400 mt-2">{news.time}</p>
+                                        <p className="text-sm text-gray-400 mt-2">{news.created_at}</p>
                                     </div>
                                 </li>
                             ))}

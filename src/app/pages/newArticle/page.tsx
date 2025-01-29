@@ -1,6 +1,7 @@
 'use client'
 import React from "react"
 import { useState, ChangeEvent, FormEvent } from "react"
+import { useRouter } from "next/navigation";
 
 export default function NewArticle() {
    const [title, setTitle] = useState('');
@@ -9,10 +10,12 @@ export default function NewArticle() {
    const [image, setImage] = useState<File | null>(null);
    const [loading, setLoading] = useState(false);
    const [message, setMessage] = useState<string | null>(null);
+   const [error, setError] = useState<string | null>(null); 
+
+   const router = useRouter();
 
    const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] //verification if exists any file selected
-    console.log('Arquivo adicionado')
     if (file) {
         if(file.size > 5 * 1024 * 1024) {
             alert('O arquivo deve ter no máximo 5MB.');
@@ -23,7 +26,7 @@ export default function NewArticle() {
             return
         }
         setImage(file)
-        console.log('Imagem válida', file.name)
+
     }
    };
 
@@ -32,12 +35,6 @@ export default function NewArticle() {
     e.preventDefault(); 
     setLoading(true);
     setMessage(null); 
-    
-    console.log('Enviado artigo')
-    console.log('Título', title)
-    console.log('subtítulo', subtitle)
-    console.log('Texto', text)
-    console.log('Imagem', image?.name)
 
     const formData = new FormData();
     
@@ -54,22 +51,27 @@ export default function NewArticle() {
             method: 'POST',
             body: formData,
         });
-        console.log('Resposta da API:', response)
         if (response.ok) {
-            alert('Artigo Criado com Sucesso!');
+            setMessage('Artigo Criado com Sucesso!')
             setTitle('');
             setText('');
             setSubtitle('');
+            setError('');
             setImage(null);
             console.log('Artigo enviado com sucesso')
+            setTimeout(() => {
+                router.push('/')
+            }, 3000);
         } else {
             const errorData = await response.json();
-            setMessage(`Erro ao criar o artigo: ${errorData.error}`);
+            setError(`Erro ao criar o artigo: ${errorData.error}`);
+            setMessage('');
             console.error('Erro retornado pela API:', errorData)
         }
     }catch (error) {
         console.error("Erro ao criar o artigo:", error);
-        setMessage('Erro ao criar o artigo. Tente novamente mais tarde.');
+        setError('Erro ao criar o artigo. Tente novamente mais tarde.');
+        setMessage('');
     } finally {
         setLoading(false)
     }
@@ -141,9 +143,15 @@ export default function NewArticle() {
                             {loading? 'Publicando...':'Publicar Artigo'}
                         </button>
                     </div>
-                    {message && (
-                        <div className="mt-4 p-2 text-white bg-red-500 rounded-md">
+                    
+                     {message && (
+                        <div className="mt-4 p-2 text-white bg-green-500 rounded-md">
                             {message}
+                        </div>
+                    )}
+                    {error && (
+                        <div className="mt-4 p-2 text-white bg-red-500 rounded-md">
+                            {error}
                         </div>
                     )}
                 </form>
