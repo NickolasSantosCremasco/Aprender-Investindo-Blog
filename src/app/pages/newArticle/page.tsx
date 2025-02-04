@@ -151,7 +151,7 @@ export default function NewArticle() {
                     )}
                     {error && (
                         <div className="mt-4 p-2 text-white bg-red-500 rounded-md">
-                            {error}
+                            {error} <span className="cursor-pointer hover:text-blue-300 font-bold underline" onClick={() => router.push('/pages/login')}>Faça Login</span>
                         </div>
                     )}
                 </form>
