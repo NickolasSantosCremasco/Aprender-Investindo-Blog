@@ -95,7 +95,7 @@ export default function NewsSection () {
                                 />
                                 <div className="p-6">
                                     <Trash2 onClick={() => handleDelete(item.id)} className="float-right p-1  w-9 h-9 text-black text-4xl mt-1 hover:text-red-400 hover:transition-all hover:scale-110 rounded-lg"/>
-                                    <Pencil onClick={() => router.push('')} className="float-right mt-3 text-black hover:scale-110 transition-all hover:text-blue-400"/>
+                                    <Pencil onClick={() => router.push(`/pages/editArticle?id=${item.id}`)} className="float-right mt-3 text-black hover:scale-110 transition-all hover:text-blue-400"/>
                                     <h2 className="text-2xl font-bold text-gray-800">{item.title}</h2>
                                     <p className="text-gray-600 mt-2">{item.subtitle}</p>
                                     <p className="text-sm text-gray-400 mt-4">{item.created_at}</p>
