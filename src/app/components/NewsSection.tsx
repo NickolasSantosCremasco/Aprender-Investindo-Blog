@@ -87,7 +87,7 @@ export default function NewsSection () {
                     {/* Mainly News */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:w-2/3">
                         {mainNews.map((item) => (
-                            <div key={item.id} className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg cursor-pointer hover:scale-105 transition-all">
+                            <div key={item.id} onClick={(e) => router.push(`/pages/article?id=${item.id}`)} className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg cursor-pointer hover:scale-105 transition-all">
                                 <img 
                                     src={item.image_url} 
                                     alt={item.title}

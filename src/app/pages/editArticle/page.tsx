@@ -2,6 +2,7 @@
 import React, { useEffect } from "react"
 import { useState, ChangeEvent, FormEvent } from "react"
 import { useRouter, useSearchParams } from "next/navigation";
+import Footer from "@/app/components/Footer";
 
 export default function editArticle() {
    const [title, setTitle] = useState('');
@@ -22,7 +23,7 @@ export default function editArticle() {
     if (!id) return;
     const fetchArticle = async () => {
         try {
-            const response = await fetch(`/api/getArticle?id=${id}`);
+            const response = await fetch(`/api/getArticles?id=${id}`);
             if (response.ok) {
                 const data = await response.json();
                 setTitle(data.title);
