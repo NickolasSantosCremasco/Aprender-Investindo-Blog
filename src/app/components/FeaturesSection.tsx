@@ -3,30 +3,30 @@ export default function Features() {
     const features = [
         {
             id:1,
-            title: 'Consultoria Financeira',
-            description: 'Obtenha orientações personalizadas para alcançar seus objetivos financeiros',
-            image:'https://img.freepik.com/fotos-gratis/boneca-com-dinheiro_1160-17.jpg?ga=GA1.1.23163951.1734569073&semt=ais_hybrid'
+            title: 'Consultoria Financeira Personalizada',
+            description: 'Maximize seu potencial financeiro com orientações especializadas e personalizadas.',
+            image:'/uploads/consultoria.jpg'
         
         },
         {
             id:2,
-            title: 'Consultoria Financeira',
-            description: 'Obtenha orientações personalizadas para alcançar seus objetivos financeiros',
-            image:'https://img.freepik.com/fotos-gratis/boneca-com-dinheiro_1160-17.jpg?ga=GA1.1.23163951.1734569073&semt=ais_hybrid'
+            title: 'Ferramentas de Gestão Financeira',
+            description: 'Simplifique sua vida financeira com nossas ferramentas intuitivas e poderosas.',
+            image:'/uploads/ferramentas.jpg'
         
         },
         {
             id:3,
-            title: 'Consultoria Financeira',
-            description: 'Obtenha orientações personalizadas para alcançar seus objetivos financeiros',
-            image:'https://img.freepik.com/fotos-gratis/boneca-com-dinheiro_1160-17.jpg?ga=GA1.1.23163951.1734569073&semt=ais_hybrid'
+            title: 'Automação de Finanças Pessoais',
+            description: 'Deixe a tecnologia trabalhar por você! Com nossos scripts e aplicativos, automatizamos tarefas financeiras.',
+            image:'/uploads/automacao.jpg'
         
         },
         {
             id:4,
-            title: 'Consultoria Financeira',
-            description: 'Obtenha orientações personalizadas para alcançar seus objetivos financeiros',
-            image:'https://img.freepik.com/fotos-gratis/boneca-com-dinheiro_1160-17.jpg?ga=GA1.1.23163951.1734569073&semt=ais_hybrid'
+            title: 'Desenvolvimento de Sites ou Apps',
+            description: 'Transforme suas ideias em realidade com soluções digitais sob medida. Desenvolvemos sites e aplicativos voltados para o setor financeiro.',
+            image:'/uploads/desenvolvimentoDeSites.jpg'
         
         },
     ]
@@ -54,7 +54,7 @@ export default function Features() {
                             <img 
                                 src={feature.image} 
                                 alt={feature.title}
-                                className="w-full h-full object-contain border-2 border-gray-300 rounded-lg"
+                                className="w-full h-full object-contain rounded-lg"
                              />
                         </div>
 
@@ -62,7 +62,7 @@ export default function Features() {
                         <h2 className="text-xl font-bold text-black">{feature.title}</h2>
 
                         {/* Description */}
-                        <p className="text-gray-600 mt-2">{feature.description}</p>
+                        <p className="text-gray-600 mt-2 text-justify">{feature.description}</p>
 
                     </div>
                 ))}

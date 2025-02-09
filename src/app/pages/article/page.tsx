@@ -45,8 +45,18 @@ export default function Article() {
         };
         fetchArticle();
     }, [id])
+
+    useEffect(() => {
+        if (image) {
+            document.body.style.backgroundImage = `url(/${image})`
+            document.body.style.backgroundSize = 'cover'
+            document.body.style.backgroundPosition = "center";
+            document.body.style.backgroundRepeat = "no-repeat";
+            document.body.style.backdropFilter = 'blur(10px)'
+        }
+    }, [image])
     return(
-        <section className='max-w-screen-xl shadow-xl mx-auto flex flex-col'>
+        <section className='max-w-screen-xl shadow-xl mx-auto flex flex-col bg-white'>
             
             {/* Header Section */}
             <div className='relative w-full h-[300px] md:h-[400px] overflow-hidden'>

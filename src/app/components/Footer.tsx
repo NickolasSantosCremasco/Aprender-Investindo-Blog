@@ -37,9 +37,9 @@ export default function Footer() {
                         Telefone <a href="tel:+5511998989818" className="hover:text-white">(11) 99898-9818</a>
                     </p>
                     <div className="flex space-x-4 mt-4">
-                        <a href="" className="text-gray-400 hover:text-white"><Youtube /></a>
-                        <a href="" className="text-gray-400 hover:text-white"><Instagram /></a>
-                        <a href="" className="text-gray-400 hover:text-white">TikTok</a>
+                        <a href="https://www.youtube.com/@AprendendoaInvestirOficial" target='_blank' className="text-gray-400 hover:text-white"><Youtube /></a>
+                        <a href="https://www.instagram.com/nickolascremasco/" target='_blank'  className="text-gray-400 hover:text-white"><Instagram /></a>
+                        <a href="https://www.tiktok.com/@nickolas.cremasco" target='_blank'  className="text-gray-400 hover:text-white">TikTok</a>
 
                     </div>
                 </div>
