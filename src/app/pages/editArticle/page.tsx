@@ -2,7 +2,6 @@
 import React, { useEffect } from "react"
 import { useState, ChangeEvent, FormEvent } from "react"
 import { useRouter, useSearchParams } from "next/navigation";
-import Footer from "@/app/components/Footer";
 
 export default function editArticle() {
    const [title, setTitle] = useState('');
