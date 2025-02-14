@@ -8,9 +8,9 @@ export default function Footer() {
                 {/* Logo*/}
                 <div className="flex flex-col items-start">
                     <img 
-                        src="" 
+                        src="/uploads/logo.png" 
                         alt="Company Logo"
-                        className="w-32 mb-4"
+                        className="w-24 mb-4"
                     />
                     <p className="text-sm text-gray-300">
                         Transformando investimentos em oportunidades.

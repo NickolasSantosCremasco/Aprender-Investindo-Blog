@@ -59,7 +59,7 @@ export default function Article() {
         <section className='max-w-screen-xl shadow-xl mx-auto flex flex-col bg-white'>
             
             {/* Header Section */}
-            <div className='relative w-full h-[300px] md:h-[400px] overflow-hidden'>
+            <div className='relative w-full h-[400px] md:h-[400px] overflow-hidden'>
                     <img 
                         src={`/${image}`}
                         alt={title} 

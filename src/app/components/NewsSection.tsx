@@ -18,6 +18,7 @@ export default function NewsSection () {
     const [mainNews, setMainNews] = useState<Article[]>([])    
     const [secondaryNews, setSecondaryNews] = useState<Article[]>([])
     const [loading, setLoading] = useState(true);
+    const [isAdmin, setIsAdmin] = useState(false)
 
     useEffect(() => {
         async function fetchNews() {
@@ -38,7 +39,17 @@ export default function NewsSection () {
             }
         }
 
-        fetchNews();    
+        async function checkAdmin() {
+            try {
+                const response = await fetch('/api/checkAdmin')
+                const data = await response.json();
+                setIsAdmin(data.is_admin)
+            } catch(error) {
+                console.error('Erro ao verificar a autenticação:', error);
+            }
+        }
+        fetchNews();  
+        checkAdmin();  
     }, []);
 
     async function handleDelete(id: number) {
@@ -94,6 +105,7 @@ export default function NewsSection () {
                                     className="w-full h-48 object-cover"
                                 />
                                 <div className="p-6">
+                                    
                                     <Trash2 onClick={() => handleDelete(item.id)} className="float-right p-1  w-9 h-9 text-black text-4xl mt-1 hover:text-red-400 hover:transition-all hover:scale-110 rounded-lg"/>
                                     <Pencil onClick={() => router.push(`/pages/editArticle?id=${item.id}`)} className="float-right mt-3 text-black hover:scale-110 transition-all hover:text-blue-400"/>
                                     <h2 className="text-2xl font-bold text-gray-800">{item.title}</h2>
@@ -104,7 +116,10 @@ export default function NewsSection () {
                         ))}
                     </div>
                     <div className="lg:w-1/3 ">
-                    <button className="border-2 rounded-lg pt-1 pb-1 pl-4 pr-4 hover:scale-105 transition-all hover:bg-yellow-400 float-right cursor-pointer" onClick={() => router.push('/pages/newArticle')}>Novo Artigo</button>
+                    {isAdmin && (
+                        <button className="border-2 rounded-lg pt-1 pb-1 pl-4 pr-4 hover:scale-105 transition-all hover:bg-yellow-400 float-right cursor-pointer" onClick={() => router.push('/pages/newArticle')}>Novo Artigo</button>
+                    )}
+    
                         <h3 className="text-lg font-semibold mb-4">Últimas Notícias</h3>
                         <ul className="space-y-4">
                             {secondaryNews.map((news) => (

@@ -15,6 +15,10 @@ const db = mysql.createPool({
 //JWT Secret
 const JWT_SECRET = process.env.JWT_SECRET
 
+if (!JWT_SECRET) {
+    throw new Error('JWT_SECRET não definido no ambiente.')
+}
+
 // LOGIN ROUTE
 export async function POST(req: NextRequest) {
     
@@ -35,7 +39,7 @@ export async function POST(req: NextRequest) {
         // Query user by email
         const query = "SELECT id, email, password FROM contas.usuarios WHERE email = ?";
         const [rows] = await db.execute(query, [email]);
-        const user = (rows as any)[0];
+        const user = (rows as any[])[0];
 
         if (!user) {
             return NextResponse.json(
@@ -62,7 +66,7 @@ export async function POST(req: NextRequest) {
 
         //Sucess return with token
         const response = NextResponse.json(
-            {message: 'Login bem sucedido!'},
+            {message: 'Login bem sucedido!', token},
             {status: 200}
         );
         response.cookies.set('authToken', token, {
@@ -70,6 +74,7 @@ export async function POST(req: NextRequest) {
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'strict',
             maxAge: 3600,
+            path: '/'
         });
         return response
     } catch (error: any) {
