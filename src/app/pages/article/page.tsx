@@ -2,7 +2,7 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Footer from '@/app/components/Footer';
-import Navbar from '@/app/components/Navbar';
+
 
 //page that will be the body of the article
 export default function Article() {
@@ -56,26 +56,28 @@ export default function Article() {
         }
     }, [image])
     return(
-        <section className='max-w-screen-xl shadow-xl mx-auto flex flex-col bg-white'>
+        <section className='max-w-screen-xl mt-3 shadow-xl mx-auto flex flex-col'>
             
             {/* Header Section */}
-            <div className='relative w-full h-[400px] md:h-[400px] overflow-hidden'>
+            <div className='relative w-full h-[400px] md:h-[600px] overflow-hidden rounded-tr-3xl rounded-ss-3xl'>
                     <img 
                         src={`/${image}`}
                         alt={title} 
-                        className='brightness-50 bg-cover w-full h-full' />
+                        className='brightness-50 shadow-sm bg-cover w-full h-full' 
+                    />
                 <div className="absolute inset-0 flex flex-col justify-center md:justify-center pl-6 md:pl-16 gap-1 text-white">
                     <nav className="text-xs sm:text-sm opacity-80 relative  xl:bottom-5 bottom-0">
                         <span><span onClick={(e) => router.back()} className='hover:opacity-50 cursor-pointer'>Início</span> &gt; Artigos &gt;</span>
                         <span className="font-semibold">{title}</span>
                     </nav>
-                    <h1 className="text-2xl md:text-5xl font-bold mt-40">{title}</h1>
+                    <h1 className="text-2xl md:text-5xl font-bold mt-72">{title}</h1>
                     <h2 className="text-sm md:text-xl opacity-80">{subtitle}</h2>
                     <p className="text-xs md:text-sm mt-1">Por <span className="font-semibold">Nickolas Cremasco</span> - Fevereiro 07, 2025</p>
                 </div>
             </div>
             {/* Corpo do Artigo */}
-            <div className='p-6 md:p-10'>
+            <div className=''>
+                <div className='w-full bg-white p-10'>
                 {error ? (
                     <p className='text-red-500 text-center'>{error}</p>
                 ) : (
@@ -84,6 +86,8 @@ export default function Article() {
                         <p className='text-lg pl-10 pr-10 text-justify leading-relaxed'>{text}</p>
                     </>
                 )}
+                </div>
+                
                 
             </div>
             <Footer/>
