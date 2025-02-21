@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
 
         if (!token) {
             return NextResponse.json(
-                {is_admin:0}, 
+                {is_admin: false}, 
                 {status: 401}
             )
         }
