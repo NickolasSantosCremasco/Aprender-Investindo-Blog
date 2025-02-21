@@ -12,6 +12,13 @@ const db = mysql.createPool({
     database: process.env.DB_DATABASE,
 })
 
+interface User {
+    id: Number,
+    email: string,
+    password: string,
+    is_admin: boolean
+}
+
 //JWT Secret
 const JWT_SECRET = process.env.JWT_SECRET
 
@@ -37,9 +44,9 @@ export async function POST(req: NextRequest) {
         }
 
         // Query user by email
-        const query = "SELECT id, email, password FROM contas.usuarios WHERE email = ?";
+        const query = "SELECT id, email, password, is_admin FROM contas.usuarios WHERE email = ?";
         const [rows] = await db.execute(query, [email]);
-        const user = (rows as any[])[0];
+        const user = (rows as User[])[0];
 
         if (!user) {
             return NextResponse.json(
@@ -57,12 +64,15 @@ export async function POST(req: NextRequest) {
             );
         }
 
+        const payload = {
+            id: user.id,
+            email: user.email,
+            is_admin: user.is_admin
+        }
         //Generate a JWT token (Valid for 1 hour)
-        const token = jwt.sign({id:user.id, email:user.email}, JWT_SECRET as string, {
+        const token = jwt.sign(payload, JWT_SECRET as string, {
             expiresIn: '1h',
         });
-
-      
 
         //Sucess return with token
         const response = NextResponse.json(

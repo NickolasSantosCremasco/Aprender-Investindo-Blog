@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Trash2, Pencil } from "lucide-react";
 
+
 interface Article {
     id: number;
     title: string;
@@ -20,37 +21,41 @@ export default function NewsSection () {
     const [loading, setLoading] = useState(true);
     const [isAdmin, setIsAdmin] = useState(false)
 
-    useEffect(() => {
-        async function fetchNews() {
-            try {
-                const response = await fetch('/api/getArticles');
-                const articles = await  response.json();
-              
-                if (articles.length > 0) {
-                    setMainNews(articles[0].slice(0, 4))
-                    setSecondaryNews(articles[0].slice(4))
-                }
-                //Organization of the news between de main and secondaries
+        useEffect(() => {
+            async function fetchNews() {
+                try {
+                    const response = await fetch('/api/getArticles');
+                    const articles = await  response.json();
                 
-            } catch(error) {
-                console.error('Erro ao carregar as notícias:', error);
-            } finally {
-                setLoading(false);
+                    if (articles.length > 0) {
+                        setMainNews(articles[0].slice(0, 4))
+                        setSecondaryNews(articles[0].slice(4))
+                    }
+                    //Organization of the news between de main and secondaries
+                    
+                } catch(error) {
+                    console.error('Erro ao carregar as notícias:', error);
+                } finally {
+                    setLoading(false);
+                }
             }
-        }
 
-        async function checkAdmin() {
-            try {
-                const response = await fetch('/api/checkAdmin')
-                const data = await response.json();
-                setIsAdmin(data.is_admin)
-            } catch(error) {
-                console.error('Erro ao verificar a autenticação:', error);
+            async function checkAdmin() {
+                try {
+                    const response = await fetch('/api/checkAdmin')
+                    if (!response.ok) {
+                        throw new Error('Erro ao verificar autenticação.')
+                    }
+                    const data = await response.json();
+                    setIsAdmin(data.is_admin)
+                } catch(error) {
+                   
+                    console.error('Erro ao verificar a autenticação:', error);
+                }
             }
-        }
-        fetchNews();  
-        checkAdmin();  
-    }, []);
+            fetchNews();  
+            checkAdmin();  
+        }, []);
 
     async function handleDelete(id: number) {
         const confirmed = window.confirm('Tem certeza que deseja deletar este artigo?');
@@ -106,7 +111,7 @@ export default function NewsSection () {
                                 />
                                 <div className="p-6">
                                     {isAdmin && (
-                                        <>
+                                        <div className="float-right space-x-2">
                                             <Trash2 
                                                 onClick={() => handleDelete(item.id)} 
                                                 className="float-right p-1  w-9 h-9 text-black text-4xl mt-1 hover:text-red-400 hover:transition-all hover:scale-110 rounded-lg"
@@ -115,7 +120,7 @@ export default function NewsSection () {
                                                 onClick={() => router.push(`/pages/editArticle?id=${item.id}`)} 
                                                 className="float-right mt-3 text-black hover:scale-110 transition-all hover:text-blue-400"
                                             />
-                                        </>
+                                        </div>
                                     )}
                                     
                                     <h2 className="text-2xl font-bold text-gray-800">{item.title}</h2>
@@ -127,7 +132,11 @@ export default function NewsSection () {
                     </div>
                     <div className="lg:w-1/3 ">
                     {isAdmin && (
-                        <button className="border-2 rounded-lg pt-1 pb-1 pl-4 pr-4 hover:scale-105 transition-all hover:bg-yellow-400 float-right cursor-pointer" onClick={() => router.push('/pages/newArticle')}>Novo Artigo</button>
+                        <button 
+                            className="border-2 rounded-lg pt-1 pb-1 pl-4 pr-4 hover:scale-105 transition-all hover:bg-yellow-400 float-right cursor-pointer" 
+                            onClick={() => router.push('/pages/newArticle')}>
+                                Novo Artigo
+                        </button>
                     )}
     
                         <h3 className="text-lg font-semibold mb-4">Últimas Notícias</h3>

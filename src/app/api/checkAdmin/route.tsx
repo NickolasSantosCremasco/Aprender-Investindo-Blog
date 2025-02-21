@@ -1,35 +1,36 @@
-import mysql from 'mysql2/promise'
-import { NextResponse, NextRequest } from 'next/server'
+import { NextResponse, NextRequest } from "next/server";
+import jwt from 'jsonwebtoken';
 
-const db = mysql.createPool({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE
-})
+const JWT_SECRET = process.env.JWT_SECRET;
 
-export async function CheckAdmin(req:NextRequest) {
-    try {
-        const { userId } = await req.json()
+interface TokenPayload {
+    id: number;
+    email: string;
+    is_admin: boolean;
+}
 
-        if (!userId) {
+export async function GET(req: NextRequest) {
+    try {  
+        const token = req.cookies.get('authToken')?.value;
+
+        if (!token) {
             return NextResponse.json(
-                {error: 'Usuário não autenticado!'},
-                {status:401}
+                {is_admin:0}, 
+                {status: 401}
             )
         }
 
-        const [rows]: any = await db.query('SELECT is_admin FROM usuarios WHERE id = ?', [userId]);
-        if (!rows || rows.length === 0) {
-            return NextResponse.json(
-                {error:'Usuário não encontrado'},
-                {status:404}
-            )
-        }
-        const isAdmin = rows[0].is_admin === 1;
-        return NextResponse.json({isAdmin})
-    } catch(error) {
-        console.error('Erro ao verificar admin:', error);
-        return NextResponse.json({error: 'Erro interno do servidor'}, {status: 500})
+        const decoded = jwt.verify(token, JWT_SECRET as string) as TokenPayload;
+        return NextResponse.json(
+            { is_admin: decoded.is_admin},
+            { status: 200}
+        )
+
+    }catch(error) {
+        console.error("Erro ao verificar o token", error)
+        return NextResponse.json(
+            {is_admin:false},
+            {status:401}
+        )
     }
 }
