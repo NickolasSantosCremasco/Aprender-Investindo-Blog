@@ -5,7 +5,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import 'swiper/css';
 
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
-import { text } from "stream/consumers";
 export default function HeroSection() {
     
     const slides = [

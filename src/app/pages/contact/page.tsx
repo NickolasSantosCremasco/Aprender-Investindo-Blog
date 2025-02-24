@@ -1,17 +1,34 @@
 'use client'
 import { useState, useEffect } from "react"
-import Footer from "@/app/components/Footer"
+import { useRouter } from "next/navigation"
+
 
 export default function Contact() {
+    
+    const router = useRouter();
+
+    useEffect(() => {
+        document.body.style.backgroundImage = 'url(/uploads/fundoGradient.jpg)'
+        document.body.style.backgroundSize = 'cover';
+        document.body.style.backgroundPosition = 'center';
+        document.body.style.backgroundRepeat = 'no-repeat';
+    }, [])
     return (
-        <section className="mx-auto max-w-screen-md mt-5 mb-5 rounded-lg overflow-hidden shadow-sm border ">
-            <div className="contact-header text-center border-b bg-blue-500">
-                <h3 className="text-sm pt-6 text-yellow-400">Aprender Investindo</h3>
-                <h1 className="text-4xl font-bold">Entrar em Contato</h1>
-                <h2 className="mt-2 p-1 pl-16 pr-16 pb-10 text-white">Escreva seu Feedback sobre o site, seu depoimento ou especifique o serviço que você se interessou e podemos lhe fornecer!</h2>
+        <section className="mx-auto max-w-screen-md mt-5 mb-5 rounded-xl overflow-hidden  " style={{boxShadow: '0 0px 10px 10px rgba(255, 255, 255, 0.3), 0 2px 4px -1px rgba(59, 130, 246, 0.06)'}}>
+            
+            <div className="contact-header text-center border-b bg-cover py-16" style={{backgroundImage: 'url(/uploads/fundoAzulClaro.avif)'}}>
+                <div>
+                    <h1 className="float-left text-lg relative bottom-10 left-5 hover:text-white hover:cursor-pointer" onClick={() => router.push('/')}>Voltar</h1>
+                </div>
+                <div className="relative z-10">
+                    <h3 className="text-sm pt-10 text-white  tracking-widest">Aprender Investindo | Contrate Nossos Serviços</h3>
+                    <h1 className="text-5xl font-bold">Entre em Contato.</h1>
+                    <h2 className="mt-2 p-2 pl-24 pr-24 pb-10 text-gray-700">Escreva seu Feedback sobre o site, seu depoimento ou especifique o serviço que você se interessou e podemos lhe fornecer!</h2>
+                </div>
+               
             </div>
-            <div className="contact-form bg-white p-8 rounded-lg shadow-md">
-                <form action="" method="POST" className="space-y-6">
+            <div className="contact-form bg-white p-8 rounded-b-lg shadow-md">
+                <form action="" method="POST" className="space-y-8">
                     <div>
                         <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                             Nome
@@ -21,7 +38,7 @@ export default function Contact() {
                             name="name" 
                             id="name" 
                             placeholder="Digite seu Nome" 
-                            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                             required
                         />
                     </div>
@@ -34,7 +51,7 @@ export default function Contact() {
                             name="email" 
                             id="email" 
                             placeholder="Digite seu Email" 
-                            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                             required
                         />
                     </div>
@@ -45,7 +62,7 @@ export default function Contact() {
                             name="tel" 
                             id="tel" 
                             placeholder="Digite seu Número" 
-                            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                             required
                         />
                     </div>
@@ -54,8 +71,8 @@ export default function Contact() {
                         <select 
                             name="services" 
                             id="services"
-                            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                            required
+                            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            
                         >
                             <option value="">Nenhum</option>
                             <option value="consultoria financeira">Consultoria Financeira</option>
@@ -70,15 +87,15 @@ export default function Contact() {
                             name="msg" 
                             id="msg" 
                             placeholder="Digite sua Mensagem" 
-                            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:ring:border-blue-500"
+                            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:ring:border-blue-500"
                             required
                         ></textarea>
                     </div>
                     <button 
                         type="submit"
-                        className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                        className="w-30 block mx-auto bg-black text-white py-2 px-4 rounded-full transition-all hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                     >
-                            Enviar
+                            Enviar Mensagem
                     </button>
                 </form>
             </div>

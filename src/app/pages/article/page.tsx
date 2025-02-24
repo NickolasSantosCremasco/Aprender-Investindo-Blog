@@ -11,6 +11,7 @@ export default function Article() {
     const [subtitle, setSubtitle] = useState('')
     const [image, setImage] = useState<string | null>(null)
     const [text, setText] = useState<string>('')
+    const [createdAt, setCreatedAt] = useState<string>('')
     const [error, setError] = useState<string | null>(null)
 
                 
@@ -33,6 +34,7 @@ export default function Article() {
                 setSubtitle(data.subtitle || '')
                 setText(data.content || 'O conteúdo do artigo não foi encontrado!')
                 setImage(data.image_url ?? 'https://via.placeholder.com/1200x400')
+                setCreatedAt(data.created_at ?? 'Data não encontrada')
 
                
             } catch(error) {
@@ -72,7 +74,11 @@ export default function Article() {
                     </nav>
                     <h1 className="text-2xl md:text-5xl font-bold mt-72">{title}</h1>
                     <h2 className="text-sm md:text-xl opacity-80">{subtitle}</h2>
-                    <p className="text-xs md:text-sm mt-1">Por <span className="font-semibold">Nickolas Cremasco</span> - Fevereiro 07, 2025</p>
+                    <p className="text-xs md:text-sm mt-1">Por <span className="font-semibold">Nickolas Cremasco</span> - {new Date(createdAt).toLocaleDateString('pt-BR', {
+                        day: '2-digit',
+                        month: 'long',
+                        year: 'numeric'
+                    })}</p>
                 </div>
             </div>
             {/* Corpo do Artigo */}

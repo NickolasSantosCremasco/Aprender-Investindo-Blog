@@ -125,7 +125,8 @@ export default function NewsSection () {
                                     
                                     <h2 className="text-2xl font-bold text-gray-800">{item.title}</h2>
                                     <p className="text-gray-600 mt-2">{item.subtitle}</p>
-                                    <p className="text-sm text-gray-400 mt-4">{item.created_at}</p>
+                                
+                                    <p className="text-sm text-gray-400 mt-4">Publicado em: {new Date(item.created_at).toLocaleDateString('pt-BR')}</p>
                                 </div>
                             </div>
                         ))}

@@ -27,8 +27,8 @@
             <div className="flex flex-col sm:flex-row items-center justify-between pt-7 px-10 pb-7  max-w-screen-xl mx-auto bg-sky-950 text-white rounded-tr-2xl rounded-tl-2xl shadow-md">
                 {/* Logotipo */}
                 <a className="text-2xl flex items-center" href="/">
-                    <span className="mr-2 text-yellow-400 w-20"><img src="/uploads/logo.png" alt="" /></span>
-                    <span className="mr-2 text-white">Aprender Investindo</span>
+                    <span className="mr-2 text-yellow-400 w-20"><img src="/uploads/logo.png" alt="logo" /></span>
+                    <span className="mr-2 text-white ">Aprender Investindo</span>
                 </a> 
 
                 {/* Menu Toggle (Mobile) */}
@@ -38,40 +38,40 @@
                 </label>
                 
                 {/* Navigation */}
-                <nav className='peer-checked:block hidden sm:flex sm:items-center' aria-label='Menu de navegação principal'>
-                    <ul className="flex flex-col sm:flex-row sm:gap-x-8 items-center">
-                        <li className='p-2 flex sm:p-0 cursor-pointer hover:text-yellow-400 transition-all' onClick={() => router.push('/')}>
-                            <Home/>
-                            <span className='pl-1'> Inicial </span>
-                        </li>
-                        <li className='p-2 flex sm:p-0 cursor-pointer hover:text-yellow-400 transition-all' onClick={() => router.push('/noticias')}>
-                            <Newspaper/> 
-                            <span className='pl-1'>Notícias</span>
-                        </li>
-                        <li className='p-2 flex sm:p-0 cursor-pointer hover:text-yellow-400 transition-all' onClick={() => router.push('/produtos')}>
-                            <ShoppingBasket/> 
-                            <span className='pl-1'>Produtos</span>
-                        </li>
-                        <li className='p-2 flex sm:p-0 cursor-pointer hover:text-yellow-400 transition-all' onClick={() => router.push('/sobre')}>
-                            <EqualApproximately/> 
-                            <span className='pl-1'>Sobre</span>
-                        </li>
-                        <li className='p-2 flex sm:p-0 cursor-pointer hover:text-yellow-400 transition-all' onClick={() => router.push('/pages/contact')}>
-                            <UserRound/> 
-                            <span className='pl-1'>Contato</span>
-                        </li>
+                <nav className='peer-checked:block hidden sm:flex sm:items-center w-full' aria-label='Menu de navegação principal'>
+                    <div className='flex flex-1 justify-center'>
+                        <ul className="flex flex-col sm:flex-row sm:gap-x-8 items-center pr-10">
+                            <li className='p-2 flex sm:p-0 cursor-pointer hover:text-yellow-400 transition-all' onClick={() => router.push('/')}>
+                                <Home/>
+                                <span className='pl-1'> Inicial </span>
+                            </li>
+                        
+                        
+                            <li className='p-2 flex sm:p-0 cursor-pointer hover:text-yellow-400 transition-all' onClick={() => router.push('/pages/about')}>
+                                <EqualApproximately/> 
+                                <span className='pl-1'>Sobre Nós</span>
+                            </li>
+                            
+                            <li className='p-2 flex sm:p-0 cursor-pointer hover:text-yellow-400 transition-all' onClick={() => router.push('/pages/contact')}>
+                                <UserRound/> 
+                                <span className='pl-1'>Contato</span>
+                            </li>
+                        </ul>
+                    </div>
+                       
                         {isLoading ? (
                             <div className='ml-2 border-2 px-6 py-1 border-orange-600 rounded-xl'>Carregando...</div>
                         ) : (
-                            <ul>
+                            <ul className='flex items-center'>
                                 {isAuthenticated ? (
-                                    <li className="flex item-center cursor-pointer hover:text-yellow-400 transition-all relative">
-                                        <button onClick={handleLogout} className='flex ml-2 text-sm text-red-500 hover:underline'>
-                                            <LogOut/>
+                                    <li className="flex item-center border rounded-xl py-1 px-2 hover:text-yellow-400 border-red-500 cursor-pointer hover:bg-red-500  transition-all relative">
+                                        <button onClick={handleLogout} className='flex ml-2 text-sm  text-red-500 hover:underline hover:text-white '>
+                                            <LogOut className='w-8'/>
+                                            <h3 className='font-bold w-full text-base'>Sair</h3>
                                         </button>
                                     </li>
                                 ) : (
-                                    <li className="flex border-2 border-blue-600 px-6 py-1 rounded-xl hover:bg-sky-700 transition-all cursor-pointer">
+                                    <li className="flex border-2 border-blue-600 px-6 py-1 rounded-xl hover:bg-sky-700  transition-all cursor-pointer">
                                         <button onClick={() => router.push('/pages/login')}>
                                             Login
                                         </button>
@@ -80,8 +80,6 @@
                             </ul>
                         )}
                             
-                    
-                    </ul>
                 </nav>
                 
             </div>
