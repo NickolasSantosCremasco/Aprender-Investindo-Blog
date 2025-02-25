@@ -14,12 +14,12 @@ export default function About() {
 
                     <h3 className="text-sm text-yellow-300 uppercase tracking-widest">Aprendiz | Nickolas</h3>
 
-                    <h1 className="text-3xl lg:text-4xl font-bold text-white mt-4">Temos o Objetivo de Mostrar Como Investir  pode Ser Fácil para Qualquer Tipo De Pessoa</h1>
+                    <h1 className="text-3xl lg:text-4xl font-bold text-white mt-4">Temos o Objetivo de Mostrar Como Investir  pode Ser Fácil para Qualquer Tipo De Pessoa!</h1>
 
-                    <h2 className="text-white mt-4 text-lg lg:text-xl leading-relaxed">Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat, officiis? Necessitatibus, natus nesciunt! Quia autem nisi dolores excepturi necessitatibus totam eum debitis magnam ea quod, tenetur reprehenderit fugiat. Consequuntur, minima!</h2>
+                    <h2 className="text-white mt-4 text-lg lg:text-xl leading-relaxed">Acreditamos que o conhecimento é a chave para a liberdade financeira. Por isso, estamos aqui para simplificar o mundo dos investimentos e torná-lo acessível a todos.</h2>
 
                     <button className="text-sky-950 font-semibold mt-6 bg-yellow-400 p-3 px-8 rounded-lg hover:bg-yellow-500 hover:scale-105 transition-all transform">
-                        Aprenda Agora!
+                        Começe a Investir Hoje!
                     </button>
 
                 </div>

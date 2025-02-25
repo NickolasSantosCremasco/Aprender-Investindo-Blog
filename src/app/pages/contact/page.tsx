@@ -6,6 +6,37 @@ import { useRouter } from "next/navigation"
 export default function Contact() {
     
     const router = useRouter();
+    const [Isloading, setIsLoading] = useState(false);
+
+    const handlerSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setIsLoading(true);
+
+        const formData = new FormData(e.currentTarget);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+            const respose = await fetch('/api/contact', {
+                method:'POST',
+                headers: {
+                    'Content-Type':'Application/json'
+                },
+                body: JSON.stringify(data),
+            });
+            
+            if (respose.ok) {
+                alert('Mensagem Enviada com Sucesso!');
+                router.push('/')
+            } else {
+                alert('Ocorreu um erro. Tente novamente mais tarde.')
+            }
+        } catch(error) {
+            console.error('Erro ao Enviar o formulário:', error);
+            alert('Ocorreu um erro. Tente novamente mais tarde.')
+        } finally{
+            setIsLoading(false)
+        }
+    }
 
     useEffect(() => {
         document.body.style.backgroundImage = 'url(/uploads/fundoGradient.jpg)'
@@ -28,7 +59,7 @@ export default function Contact() {
                
             </div>
             <div className="contact-form bg-white p-8 rounded-b-lg shadow-md">
-                <form action="" method="POST" className="space-y-8">
+                <form onSubmit={handlerSubmit} className="space-y-8">
                     <div>
                         <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                             Nome
