@@ -16,15 +16,15 @@ export default function Contact() {
         const data = Object.fromEntries(formData.entries());
 
         try {
-            const respose = await fetch('/api/contact', {
+            const response = await fetch('/api/contact', {
                 method:'POST',
                 headers: {
-                    'Content-Type':'Application/json'
+                    'Content-Type':'application/json'
                 },
                 body: JSON.stringify(data),
             });
             
-            if (respose.ok) {
+            if (response.ok) {
                 alert('Mensagem Enviada com Sucesso!');
                 router.push('/')
             } else {
@@ -43,6 +43,13 @@ export default function Contact() {
         document.body.style.backgroundSize = 'cover';
         document.body.style.backgroundPosition = 'center';
         document.body.style.backgroundRepeat = 'no-repeat';
+
+        return () => {
+            document.body.style.backgroundImage = '';
+            document.body.style.backgroundSize = '';
+            document.body.style.backgroundPosition = '';
+            document.body.style.backgroundRepeat = '';
+        };
     }, [])
     return (
         <section className="mx-auto max-w-screen-md mt-5 mb-5 rounded-xl overflow-hidden  " style={{boxShadow: '0 0px 10px 10px rgba(255, 255, 255, 0.3), 0 2px 4px -1px rgba(59, 130, 246, 0.06)'}}>
@@ -126,7 +133,7 @@ export default function Contact() {
                         type="submit"
                         className="w-30 block mx-auto bg-black text-white py-2 px-4 rounded-full transition-all hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                     >
-                            Enviar Mensagem
+                            {Isloading? 'Enviando...': 'Enviar Mensagem'}
                     </button>
                 </form>
             </div>
