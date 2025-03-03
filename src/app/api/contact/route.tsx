@@ -1,12 +1,12 @@
 import { NextResponse, NextRequest } from "next/server";
-import transporter from "@/lib/nodemailer";
+import sgMail from '@sendgrid/mail';
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY || '');
 
 export async function POST(req: NextRequest) {
     console.log('Rota /api/contact chamada'); // Log para verificar se a rota está sendo chamada
     try {
         const { name, email, tel, services, msg } = await req.json();
-
-        console.log('Dados recebidos:', { name, email, tel, services, msg });
 
         if (!name || !email || !tel) {
             return NextResponse.json(
@@ -15,12 +15,11 @@ export async function POST(req: NextRequest) {
             );
         }
 
-        console.log('Enviando e-mail para:', process.env.EMAIL_TO);
-
-        await transporter.sendMail({
-            from: process.env.EMAIL_USER,
-            to: process.env.EMAIL_TO,
-            replyTo: email,
+    // Setting the Email Content
+        const emailContent = {
+            to: process.env.EMAIL_TO || '', 
+            from: process.env.EMAIL_USER || '',
+            replyTo: email, 
             subject: 'Contato Realizado',
             text: `
                 Nome: ${name}
@@ -28,10 +27,18 @@ export async function POST(req: NextRequest) {
                 Telefone: ${tel}
                 Serviço de Interesse: ${services}
                 Mensagem: ${msg}
-            `
-        });
+            `,
+            html: `
+                <h1>Novo Contato</h1>
+                <p><strong>Nome:</strong> ${name}</p>
+                <p><strong>Email:</strong> ${email}</p>
+                <p><strong>Telefone:</strong> ${tel}</p>
+                <p><strong>Serviço de Interesse:</strong> ${services}</p>
+                <p><strong>Mensagem:</strong> ${msg}</p>
+            `,
+        };
 
-        console.log('E-mail enviado com sucesso!');
+        await sgMail.send(emailContent);
 
         return NextResponse.json(
             { message: 'E-mail enviado com Sucesso!' },
@@ -40,7 +47,7 @@ export async function POST(req: NextRequest) {
     } catch (error) {
         console.error('Erro ao enviar o e-mail:', error);
         return NextResponse.json(
-            { message: 'Ocorreu um erro ao enviar o e-mail.', error }, { status: 500 }
+            { message: 'Ocorreu um erro ao enviar o e-mail.'}, { status: 500 }
         );
     }
 }

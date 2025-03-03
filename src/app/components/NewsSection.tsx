@@ -113,11 +113,17 @@ export default function NewsSection () {
                                     {isAdmin && (
                                         <div className="float-right space-x-2">
                                             <Trash2 
-                                                onClick={() => handleDelete(item.id)} 
+                                                onClick={(e) => {
+                                                    e.stopPropagation(); //stop the event propagation
+                                                    handleDelete(item.id)
+                                                }} 
                                                 className="float-right p-1  w-9 h-9 text-black text-4xl mt-1 hover:text-red-400 hover:transition-all hover:scale-110 rounded-lg"
                                             />
                                             <Pencil 
-                                                onClick={() => router.push(`/pages/editArticle?id=${item.id}`)} 
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    router.push(`/pages/editArticle?id=${item.id}`)
+                                                }} 
                                                 className="float-right mt-3 text-black hover:scale-110 transition-all hover:text-blue-400"
                                             />
                                         </div>
