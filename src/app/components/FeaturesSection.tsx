@@ -3,8 +3,8 @@ export default function Features() {
     const features = [
         {
             id:1,
-            title: 'Consultoria Financeira Personalizada',
-            description: 'Maximize seu potencial financeiro com orientações especializadas e personalizadas.',
+            title: 'Parceria na Criação de Conteúdo',
+            description: 'Gostou do site e quer fazer uma parceria? Somos todo ouvidos, entre em contato conosco!',
             image:'/uploads/consultoria.jpg'
         
         },

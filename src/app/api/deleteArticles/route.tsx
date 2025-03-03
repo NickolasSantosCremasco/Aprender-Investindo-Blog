@@ -1,5 +1,7 @@
 import mysql from 'mysql2/promise'
 import { NextResponse, NextRequest } from 'next/server'
+import fs from 'fs/promises'; //for arquives manipulation
+import path from 'path'; //path manipulation
 
 const db = mysql.createPool({
     host: process.env.DB_HOST,
@@ -17,7 +19,20 @@ export async function DELETE(req: NextRequest ) {
                 {status:400}
             )
         };
-   
+        
+        const [rows]: any = await db.execute('SELECT image_url FROM articles WHERE id = ?', [id]);
+
+        const imageUrl = rows[0].image_url
+
+        if (imageUrl) {
+            const imagePath = path.join(process.cwd(), 'public','uploads', imageUrl);
+            try {
+                await fs.unlink(imagePath);
+            } catch (error) {
+                console.error(`Erro ao deletar a imagem: ${imagePath}`, error)
+            }
+        }
+
         const [result]: any = await db.execute('DELETE FROM articles WHERE id = ?', [id])
 
         //Verification if the article is already deleted

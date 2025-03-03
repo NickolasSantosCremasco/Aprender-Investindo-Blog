@@ -4,6 +4,8 @@ import Navbar from "@/app/components/Navbar"
 import Footer from "@/app/components/Footer"
 
 export default function About() {
+    const router = useRouter()
+
     return (
         <>
             <div><br/></div>
@@ -18,7 +20,7 @@ export default function About() {
 
                     <h2 className="text-white mt-4 text-lg lg:text-xl leading-relaxed">Acreditamos que o conhecimento é a chave para a liberdade financeira. Por isso, estamos aqui para simplificar o mundo dos investimentos e torná-lo acessível a todos.</h2>
 
-                    <button className="text-sky-950 font-semibold mt-6 bg-yellow-400 p-3 px-8 rounded-lg hover:bg-yellow-500 hover:scale-105 transition-all transform">
+                    <button onClick={() => router.push('/pages/contact')} className="text-sky-950 font-semibold mt-6 bg-yellow-400 p-3 px-8 rounded-lg hover:bg-yellow-500 hover:scale-105 transition-all transform">
                         Começe a Investir Hoje!
                     </button>
 
@@ -45,7 +47,7 @@ export default function About() {
                             <h3 className="font-bold text-xl text-sky-950">Nickolas Cremasco</h3>
                         </div>
                         <p className="text-gray-950 mt-4">
-                            "Aprender Investindo Mudou a minha vida! Com o conhecimento que adquiri, consegui alcançar minha independencia financeira"
+                            "Aprender a investir mudou a minha vida! Com o conhecimento que adquiri, consegui alcançar minha independencia financeira e hoje trabalho em busca de divulgar esse conhecimento!"
                         </p>
                     </div>
 
@@ -53,14 +55,14 @@ export default function About() {
                     <div className="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
                         <div className="flex items-center gap-4">
                             <img 
-                                src="/uploads/Nickolas.png" 
+                                src="/uploads/gisele.jpeg" 
                                 className="w-16 h-16 border-4 border-cyan-400 rounded-full" 
                                 alt="Nickolas Cremasco" 
                             />
-                            <h3 className="font-bold text-xl text-sky-950">Nickolas Cremasco</h3>
+                            <h3 className="font-bold text-xl text-sky-950">Gisele S. Silva</h3>
                         </div>
                         <p className="text-gray-600 mt-4">
-                            "A Aprender Investindo mudou minha vida! Com o conhecimento que adquiri, consegui alcançar minha independência financeira."
+                            "Antes, eu não sabia como fazer meu dinheiro trabalhar para mim. Agora, com as estratégias que aprendi, estou colhendo os frutos dos meus investimentos. A independência financeira não é mais um sonho, é a minha realidade!"
                         </p>
                     </div>
 
@@ -68,14 +70,14 @@ export default function About() {
                     <div className="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
                         <div className="flex items-center gap-4">
                             <img 
-                                src="/uploads/Nickolas.png" 
+                                src="/uploads/janete.png" 
                                 className="w-16 h-16 border-4 border-cyan-400 rounded-full" 
                                 alt="Nickolas Cremasco" 
                             />
-                            <h3 className="font-bold text-xl text-sky-950">Nickolas Cremasco</h3>
+                            <h3 className="font-bold text-xl text-sky-950">Janete Rodrigues</h3>
                         </div>
                         <p className="text-gray-600 mt-4">
-                            "A Aprender Investindo mudou minha vida! Com o conhecimento que adquiri, consegui alcançar minha independência financeira."
+                            "Pensei que era tarde para investir, mas descobri que nunca é. Com o conhecimento que adquiri, transformei minha aposentadoria em uma renda segura. Agora, vivo com mais tranquilidade e independência, aproveitando cada momento ao lado da minha família."
                         </p>
                     </div>
 

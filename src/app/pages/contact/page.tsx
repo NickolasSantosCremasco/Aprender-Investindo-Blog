@@ -61,7 +61,7 @@ export default function Contact() {
                 <div className="relative z-10">
                     <h3 className="text-sm pt-10 text-white  tracking-widest">Aprender Investindo | Contrate Nossos Serviços</h3>
                     <h1 className="text-5xl font-bold">Entre em Contato.</h1>
-                    <h2 className="mt-2 p-2 pl-24 pr-24 pb-10 text-gray-700">Escreva seu Feedback sobre o site, seu depoimento ou especifique o serviço que você se interessou e podemos lhe fornecer!</h2>
+                    <h2 className="mt-2 p-2 pl-24 pr-24 pb-10 text-gray-700">Deixe seu feedback sobre o site, compartilhe seu depoimento ou nos informe qual serviço despertou seu interesse. Estamos aqui para ajudar e fornecer exatamente o que você precisa!</h2>
                 </div>
                
             </div>
