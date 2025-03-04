@@ -73,13 +73,13 @@ export default function Article() {
                             className='brightness-50 shadow-sm bg-cover w-full h-full' 
                         />
                     <div className="absolute inset-0 flex flex-col justify-center md:justify-center pl-6 md:pl-16 gap-1 text-white">
-                        <nav className="text-xs sm:text-sm opacity-80 relative  xl:bottom-5 bottom-0">
+                        <nav className="text-sm sm:text-sm opacity-80 relative px-10 xl:bottom-1 bottom-0">
                             <span><span onClick={(e) => router.back()} className='hover:opacity-50 cursor-pointer'>Início</span> &gt; Artigos &gt;</span>
                             <span className="font-semibold">{title}</span>
                         </nav>
-                        <h1 className="text-2xl md:text-5xl font-bold mt-72">{title}</h1>
-                        <h2 className="text-sm md:text-xl opacity-80">{subtitle}</h2>
-                        <p className="text-xs md:text-sm mt-1">Por <span className="font-semibold">Nickolas Cremasco</span> - {new Date(createdAt).toLocaleDateString('pt-BR', {
+                        <h1 className="text-xl md:text-4xl font-bold mt-52 px-10">{title}</h1>
+                        <h2 className="text-sm md:text-xl opacity-80 px-10">{subtitle}</h2>
+                        <p className="text-xs md:text-sm mt-1 px-10">Por <span className="font-semibold">Nickolas Cremasco</span> - {new Date(createdAt).toLocaleDateString('pt-BR', {
                             day: '2-digit',
                             month: 'long',
                             year: 'numeric'
@@ -87,7 +87,7 @@ export default function Article() {
                     </div>
                 </div>
                 {/* Article Body */}
-                <div className='p-6'>
+                <div>
                     <div className='w-full bg-white p-10'>
                     {error ? (
                         <p className='text-red-500 text-center'>{error}</p>

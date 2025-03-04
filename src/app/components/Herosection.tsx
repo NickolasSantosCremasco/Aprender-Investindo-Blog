@@ -1,5 +1,6 @@
 'use client'
 
+import { useRouter } from "next/navigation";
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import 'swiper/css';
@@ -30,6 +31,7 @@ export default function HeroSection() {
     ];
 
    
+    const router = useRouter();
 
     return (
        <section className=" max-w-screen-xl mx-auto bg-sky-950 shadow-2xl p-5">
@@ -54,7 +56,9 @@ export default function HeroSection() {
                                 <p className="text-yellow-300">Aprender Investindo</p>
                                 <h2 className="text-4xl font-bold mb-4 sm:text-white text-">{slide.text}</h2>
                                 <p className="text-lg">{slide.subtext}</p>
-                                <button className="bg-amber-400 pl-4 pr-4 p-2 rounded-xl text-sky-800 mt-4">Adquira já</button>
+                                <button onClick={() => router.push('/pages/contact')} className="bg-amber-400 pl-4 pr-4 p-2 rounded-xl text-sky-800 mt-4">
+                                    Começe Agora!
+                                </button>
                             </div>
                         </div>
                         {/* Imagem de fundo */}

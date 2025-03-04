@@ -11,9 +11,12 @@
 
         //Verification: if token JWT are present in localStorage
         useEffect(() => {
-            const token = localStorage.getItem('authToken'); //Substituition of 'authToken' for the name that is used to save the token
-            setIsAuthenticated(!!token); // transform the value in boolean
-            setIsloading(false)
+            const checkAuth = () => {
+                const token = localStorage.getItem('authToken')
+                setIsAuthenticated(!!token); // transform the value in boolean
+                setIsloading(false)
+            } //Substituition of 'authToken' for the name that is used to save the token
+          checkAuth();
         }, [])
 
         //logout function

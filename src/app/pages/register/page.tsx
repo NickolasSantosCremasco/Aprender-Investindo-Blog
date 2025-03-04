@@ -99,7 +99,7 @@ export default function Register () {
                         type="submit"
                         className="w-full bg-sky-600 text-white py-2 px-4 rounded-lg hover:bg-sky-500 transition"
                     >
-                        Entrar
+                        Cadastre-se
                     </button>
                 </form>
                 {/* Feedback Messages */}
