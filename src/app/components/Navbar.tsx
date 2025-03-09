@@ -1,5 +1,5 @@
     'use client'
-    import {Home,UserRound, Menu, Newspaper, ShoppingBasket, EqualApproximately, LogOut} from 'lucide-react'
+    import {Home,UserRound, Menu, EqualApproximately, LogOut} from 'lucide-react'
     import { useRouter } from 'next/navigation'
     import { useEffect, useState } from 'react';
 
@@ -29,7 +29,7 @@
             
             <div className="flex flex-col sm:flex-row items-center justify-between pt-7 px-10 pb-7  max-w-screen-xl mx-auto bg-sky-950 text-white rounded-tr-2xl rounded-tl-2xl shadow-md">
                 {/* Logotipo */}
-                <a className="text-2xl flex items-center" href="/">
+                <a className="text-2xl flex items-center" onClick={() => router.push('/')}>
                     <span className="mr-2 text-yellow-400 w-20"><img src="/uploads/logo.png" alt="logo" /></span>
                     <span className="mr-2 text-white ">Aprender Investindo</span>
                 </a> 

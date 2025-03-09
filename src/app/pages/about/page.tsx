@@ -47,7 +47,7 @@ export default function About() {
                             <h3 className="font-bold text-xl text-sky-950">Nickolas Cremasco</h3>
                         </div>
                         <p className="text-gray-950 mt-4">
-                            "Aprender a investir mudou a minha vida! Com o conhecimento que adquiri, consegui alcançar minha independencia financeira e hoje trabalho em busca de divulgar esse conhecimento!"
+                            'Aprender a investir mudou a minha vida! Com o conhecimento que adquiri, consegui alcançar minha independencia financeira e hoje trabalho em busca de divulgar esse conhecimento!'
                         </p>
                     </div>
 
@@ -62,7 +62,7 @@ export default function About() {
                             <h3 className="font-bold text-xl text-sky-950">Gisele S. Silva</h3>
                         </div>
                         <p className="text-gray-600 mt-4">
-                            "Antes, eu não sabia como fazer meu dinheiro trabalhar para mim. Agora, com as estratégias que aprendi, estou colhendo os frutos dos meus investimentos. A independência financeira não é mais um sonho, é a minha realidade!"
+                            'Antes, eu não sabia como fazer meu dinheiro trabalhar para mim. Agora, com as estratégias que aprendi, estou colhendo os frutos dos meus investimentos. A independência financeira não é mais um sonho, é a minha realidade!'
                         </p>
                     </div>
 
@@ -77,7 +77,7 @@ export default function About() {
                             <h3 className="font-bold text-xl text-sky-950">Janete Rodrigues</h3>
                         </div>
                         <p className="text-gray-600 mt-4">
-                            "Pensei que era tarde para investir, mas descobri que nunca é. Com o conhecimento que adquiri, transformei minha aposentadoria em uma renda segura. Agora, vivo com mais tranquilidade e independência, aproveitando cada momento ao lado da minha família."
+                            'Pensei que era tarde para investir, mas descobri que nunca é. Com o conhecimento que adquiri, transformei minha aposentadoria em uma renda segura. Agora, vivo com mais tranquilidade e independência, aproveitando cada momento ao lado da minha família.'
                         </p>
                     </div>
 

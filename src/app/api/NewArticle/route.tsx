@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
         let decoded;
         try {
             decoded = jwt.verify(token, JWT_SECRET as string) as {email:string};
-        } catch(err) {
+        } catch(error) {
             return NextResponse.json(
                 {error: 'Token Inválido ou expirado'},
                 {status: 401}

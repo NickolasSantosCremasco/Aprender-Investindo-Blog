@@ -7,7 +7,6 @@ export default function EditArticle() {
    const [title, setTitle] = useState('');
    const [subtitle, setSubtitle] = useState('');
    const [text, setText] = useState('');
-   const [image, setImage] = useState<File | null>(null);
    const [imageUrl, setImageUrl] = useState('');
    const [loading, setLoading] = useState(false);
    const [message, setMessage] = useState<string | null>(null);
@@ -33,6 +32,7 @@ export default function EditArticle() {
                 setError('Erro ao carregar o artigo.')
             }
         } catch(error) {
+            console.error('Erro:', error)
             setError('Erro ao Buscar o artigo')
         }
     }
@@ -50,7 +50,8 @@ export default function EditArticle() {
             alert('Por favor, envie um arquivo de imagem válido.');
             return
         }
-        setImage(file)
+       
+        setImageUrl(URL.createObjectURL(file))
     }
    };
 
@@ -158,7 +159,7 @@ export default function EditArticle() {
                         <button 
                             type="submit"
                             disabled={loading}
-                            className="px-6 py-2 ${loading ? 'bg-blue-500' : 'bg-blue-600} bg-blue-600 text-white font-medium rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-blue-500 focus:ring-offset-2"
+                            className={`px-6 py-2 ${loading ? 'bg-blue-500' : 'bg-blue-600'} bg-blue-600 text-white font-medium rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-blue-500 focus:ring-offset-2`}
                         >
                             {loading? 'Alterando...':'Alterar Artigo'}
                         </button>

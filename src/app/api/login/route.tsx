@@ -12,7 +12,7 @@ const db = new Pool({
 });
 
 interface User {
-    id: Number,
+    id: number,
     email: string,
     password: string,
     is_admin: boolean
@@ -86,14 +86,15 @@ export async function POST(req: NextRequest) {
             path: '/'
         });
         return response
-    } catch (error: any) {
-        console.error('Erro no login:', error);
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            console.error('Erro no login:', error.message);
         
-        return NextResponse.json(
-            {error: 'Erro interno no servidor.'},
-            { status: 500}
-            
-        );
-        
+            return NextResponse.json(
+                {error: 'Erro interno no servidor.'},
+                { status: 500}
+                
+            );
+        }   
     }
 }

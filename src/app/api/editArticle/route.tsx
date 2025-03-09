@@ -19,6 +19,16 @@ export async function PATCH(req: NextRequest) {
             );
         }
 
+        const checkQuery = 'SELECT id FROM articles WHERE id = $1';
+        const { rowCount } = await db.query(checkQuery, [id]);
+
+        if (rowCount === 0) {
+            return NextResponse.json(
+                {error:'Artigo Não Encontrado'},
+                {status: 404}
+            )
+        }
+
         console.log('Atualizando Artigos ID:', id)
         //dinamic array for the fields that are received for update
         const updates = [];
@@ -60,19 +70,17 @@ export async function PATCH(req: NextRequest) {
 
 
         //if dont have any field to update, return error
-
-
        
         
 
         return NextResponse.json(
-            {message: 'Artigo Atualizado com Sucesso'},
+            {message: 'Artigo Atualizado com Sucesso', article: rows[0]},
             {status:200}
         )
     } catch (error) {
         console.error('Erro ao Atualizar Artigo:', error)
         return NextResponse.json(
-            {error: 'Erro ao atualizar o artigo:'},
+            {error: `Erro ao atualizar o artigo`},
             {status: 500}
         );
     }

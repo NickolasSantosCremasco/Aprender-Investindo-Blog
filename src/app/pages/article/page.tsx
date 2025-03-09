@@ -74,7 +74,7 @@ export default function Article() {
                         />
                     <div className="absolute inset-0 flex flex-col justify-center md:justify-center pl-6 md:pl-16 gap-1 text-white">
                         <nav className="text-sm sm:text-sm opacity-80 relative px-5 xl:bottom-1 bottom-0">
-                            <span><span onClick={(e) => router.back()} className='hover:opacity-50 cursor-pointer'>Início</span> &gt; Artigos &gt;</span>
+                            <span><span onClick={() => router.back()} className='hover:opacity-50 cursor-pointer'>Início</span> &gt; Artigos &gt;</span>
                             <span className="font-semibold">{title}</span>
                         </nav>
                         <h1 className="text-xl md:text-4xl font-bold mt-52 px-5">{title}</h1>

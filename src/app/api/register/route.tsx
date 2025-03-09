@@ -63,11 +63,13 @@ export async function POST(req: NextRequest) {
 
       
         return response;
-    } catch (error: any) {
-        console.log('Erro ao salvar no banco de dados:',error);
-        return NextResponse.json(
-            { error: 'Erro ao salvar no banco de dados.' }, 
-            { status: 500 }
-        );
+    } catch (error: unknown) {
+        if(error instanceof Error) {
+            console.log('Erro ao salvar no banco de dados:',error);
+            return NextResponse.json(
+                { error: 'Erro ao salvar no banco de dados.' }, 
+                { status: 500 }
+            );
+        }
     }
 };
