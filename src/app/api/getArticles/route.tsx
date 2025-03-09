@@ -1,9 +1,6 @@
 import {Pool} from 'pg';
 //import mysql from 'mysql2/promise';
 import { NextResponse } from 'next/server';
-import { NextRequest } from 'next/server';
-
-
 
 const db = new Pool({
     connectionString: process.env.DB_URL,
