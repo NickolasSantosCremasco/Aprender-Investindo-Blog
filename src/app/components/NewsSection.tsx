@@ -86,7 +86,7 @@ export default function NewsSection () {
     if (loading) {
         return (
             <section className="max-w-screen-xl mx-auto text-sky-900 shadow-2xl py-16 px-8">
-                <p>Carregando as Notícias...</p>
+                <p className="text-center animate-pulse">Carregando as Notícias...</p>
             </section>
         );
     };
