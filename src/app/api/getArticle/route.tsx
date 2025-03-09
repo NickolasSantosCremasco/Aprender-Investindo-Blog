@@ -1,16 +1,11 @@
-import mysql from 'mysql2/promise';
-import { NodeNextResponse } from 'next/dist/server/base-http/node';
+import {Pool} from 'pg';
+//import mysql from 'mysql2/promise';
 import { NextResponse } from 'next/server';
 import { NextRequest } from 'next/server';
 
-const db = mysql.createPool({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE,
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0,
+const db = new Pool({
+    connectionString: process.env.DB_URL,
+    ssl: {rejectUnauthorized: false}
 });
 
 
@@ -29,9 +24,9 @@ export async function GET(req: NextRequest) {
         }
 
         // Search for article in the Database
-        const [rows] = await db.query('SELECT * FROM articles WHERE id = ?', [id]) as any[];
+        const { rows } = await db.query('SELECT * FROM articles WHERE id = $1', [id]);
 
-        if (!Array.isArray(rows) || rows.length === 0) {
+        if (rows.length === 0) {
             return NextResponse.json(
                 {error: 'Artigo Não encontrado'},
                 {status: 404}

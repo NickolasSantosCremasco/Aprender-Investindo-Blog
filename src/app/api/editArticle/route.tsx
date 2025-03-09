@@ -1,13 +1,11 @@
-
-import mysql from 'mysql2/promise'
+import {Pool} from 'pg';
+//import mysql from 'mysql2/promise'
 import { NextRequest, NextResponse } from 'next/server'
 
-const db = mysql.createPool({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE,
-})
+const db = new Pool({
+    connectionString: process.env.DB_URL,
+    ssl: {rejectUnauthorized: false}
+});
 
 export async function PATCH(req: NextRequest) {
     try {
@@ -25,29 +23,31 @@ export async function PATCH(req: NextRequest) {
         //dinamic array for the fields that are received for update
         const updates = [];
         const values = [];
+        let paramsIndex = 1;
 
         if (title) {
-            updates.push('title = ?')
+            updates.push(`title = $${paramsIndex++}`)
             values.push(title)
         }
 
         if (subtitle) {
-            updates.push('subtitle = ?')
+            updates.push(`subtitle = $${paramsIndex++}`)
             values.push(subtitle)
         }
 
         if (content) {
-            updates.push('content = ?')
+            updates.push(`content = $${paramsIndex++}`)
             values.push(content)
         }
 
         if (image_url) {
-            updates.push('image_url = ?')
+            updates.push(`image_url = $${paramsIndex++}`)
             values.push(image_url)
         }
 
-        //if doesn't have any fields to update, return error
+        values.push(id)
 
+        
         if (updates.length === 0) {
             return NextResponse.json(
                 {error: 'Nenhum Campo para Atualizar'},
@@ -55,12 +55,15 @@ export async function PATCH(req: NextRequest) {
             );
         }
 
-        values.push(id)
+        const query = `UPDATE articles SET ${updates.join(', ')} WHERE id = $${paramsIndex} RETURNING *;`
+        const { rows } = await db.query(query, values);
 
-        const GET = `SELECT * FROM articles WHERE id = ?`
-        const query = `UPDATE articles SET ${updates.join(", ")} WHERE id = ?`;
-        await db.query(query, values);
-        await db.query(GET, id )
+
+        //if dont have any field to update, return error
+
+
+       
+        
 
         return NextResponse.json(
             {message: 'Artigo Atualizado com Sucesso'},

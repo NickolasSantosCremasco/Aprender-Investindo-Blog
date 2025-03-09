@@ -1,16 +1,15 @@
 import { NextResponse } from "next/server";
-import mysql from 'mysql2/promise';
+//import mysql from 'mysql2/promise';
+import {Pool} from 'pg';
 import bcrypt from 'bcryptjs' // Password hash
 import jwt from 'jsonwebtoken'; //For token generation
 import { NextRequest } from "next/server";
 
 // Database Config
-const db = mysql.createPool({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE,
-})
+const db = new Pool({
+    connectionString: process.env.DB_URL,
+    ssl: {rejectUnauthorized:false}
+});
 
 interface User {
     id: Number,
@@ -44,9 +43,9 @@ export async function POST(req: NextRequest) {
         }
 
         // Query user by email
-        const query = "SELECT id, email, password, is_admin FROM contas.usuarios WHERE email = ?";
-        const [rows] = await db.execute(query, [email]);
-        const user = (rows as User[])[0];
+        const query = "SELECT id, email, password, is_admin FROM users WHERE email = $1";
+        const {rows} = await db.query(query, [email]);
+        const user = rows[0] as User;
 
         if (!user) {
             return NextResponse.json(

@@ -1,13 +1,12 @@
-import mysql from 'mysql2/promise'
+//import mysql from 'mysql2/promise'
+import {Pool} from 'pg';
 import { NextResponse, NextRequest } from 'next/server'
 import fs from 'fs/promises'; //for arquives manipulation
 import path from 'path'; //path manipulation
 
-const db = mysql.createPool({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE
+const db = new Pool({
+    connectionString: process.env.DB_URL,
+    ssl: {rejectUnauthorized: false}
 })
 export async function DELETE(req: NextRequest ) {
     try {
@@ -20,7 +19,7 @@ export async function DELETE(req: NextRequest ) {
             )
         };
         
-        const [rows]: any = await db.execute('SELECT image_url FROM articles WHERE id = ?', [id]);
+        const { rows } = await db.query('SELECT image_url FROM articles WHERE id = $1', [id]);
 
         const imageUrl = rows[0].image_url
 
@@ -33,10 +32,10 @@ export async function DELETE(req: NextRequest ) {
             }
         }
 
-        const [result]: any = await db.execute('DELETE FROM articles WHERE id = ?', [id])
+        const result = await db.query('DELETE FROM articles WHERE id = $1', [id])
 
         //Verification if the article is already deleted
-        if (result.affectedRows === 0) {
+        if (result.rowCount === 0) {
             return NextResponse.json(
                 {error: 'Artigo não encontrado'}, 
                 {status:404}

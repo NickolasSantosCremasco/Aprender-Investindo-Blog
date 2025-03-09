@@ -1,15 +1,14 @@
-import mysql from 'mysql2/promise';
+import {Pool} from 'pg';
+//import mysql from 'mysql2/promise';
 import { NextResponse } from 'next/server';
 import { NextRequest } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 import jwt from 'jsonwebtoken';
 
-const db = mysql.createPool({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE,
+const db = new Pool({
+   connectionString: process.env.DB_URL,
+   ssl: {rejectUnauthorized: false}
 });
 
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -25,28 +24,33 @@ export async function POST(req: NextRequest) {
             );
         }
 
-        const decoded = jwt.verify(token, JWT_SECRET as string) as { email: string };
-        const userEmail = decoded.email;
-
-        // Obtenção do user_id pelo email
-        const [rows] = await db.execute('SELECT id FROM usuarios WHERE email = ?', [userEmail]);
-        const user = (rows as any)[0];
-
-        if (!user) {
+        let decoded;
+        try {
+            decoded = jwt.verify(token, JWT_SECRET as string) as {email:string};
+        } catch(err) {
             return NextResponse.json(
-                { error: 'Usuário não encontrado!' },
-                { status: 404 }
-            );
+                {error: 'Token Inválido ou expirado'},
+                {status: 401}
+            )
         }
 
-        const userId = user.id;
+        const userEmail = decoded.email
+        // Get user_id by email
+        const { rows } = await db.query('SELECT id FROM users WHERE email = $1', [userEmail]);
+        if (rows.length === 0) {
+            return NextResponse.json(
+                {error: 'Usuário não encontrado!'},
+                {status: 401}
+            );
+        }
+        const userId = rows[0].id;
 
-        // Obtenção dos dados do formulário
+        // get form data
         const formData = await req.formData();
         const title = formData.get('title');
         const subtitle = formData.get('subtitle');
         const text = formData.get('text');
-        const image = formData.get('image') as File;
+        const image = formData.get('image');
 
         if (typeof title !== 'string' || typeof subtitle !== 'string' || typeof text !== 'string' || !(image instanceof File)) {
             return NextResponse.json(
@@ -55,7 +59,7 @@ export async function POST(req: NextRequest) {
             );
         }
 
-        // Salvando a imagem no servidor
+        // Save the image on server
         const uploadDir = path.join(process.cwd(), 'public', 'uploads');
         if (!fs.existsSync(uploadDir)) {
             fs.mkdirSync(uploadDir, { recursive: true });
@@ -66,18 +70,17 @@ export async function POST(req: NextRequest) {
 
         const imageUrl = `uploads/${image.name}`;
 
-        // Inserção no banco de dados
-        const query = 'INSERT INTO contas.articles (title, subtitle, content, image_url, author_id) VALUES (?, ?, ?, ?, ?)';
-        await db.execute(query, [title, subtitle, text, imageUrl, userId]);
+        // Database on Insertion
+        const query = 'INSERT INTO articles (title, subtitle, content, image_url, author_id) VALUES ($1, $2, $3, $4, $5)';
+        await db.query(query, [title, subtitle, text, imageUrl, userId]);
 
         const response = NextResponse.json(
-            {
-                message: 'Publicação Efetuada com Sucesso!',
-            },
+            { message: 'Publicação Efetuada com Sucesso!' },
             { status: 201 }
         );
         return response;
     } catch (error) {
+        console.error('Erro ao processar a requisição', error)
         return NextResponse.json(
             { error: 'Erro ao salvar no banco de dados' },
             { status: 500 }

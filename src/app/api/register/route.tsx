@@ -1,15 +1,14 @@
 import { NextResponse } from "next/server"; 
-import mysql from 'mysql2/promise'; 
+import { Pool } from "pg";
+//import mysql from 'mysql2/promise'; 
 import bcrypt from 'bcryptjs'
 import jwt from "jsonwebtoken"; 
 import { NextRequest } from "next/server";
 
 //Database Config
-const db = mysql.createPool({ 
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE,
+const db = new Pool({ 
+    connectionString: process.env.DB_URL,
+    ssl: {rejectUnauthorized: false}
 });
 
 const JWT_SECRET = process.env.JWT_SECRET
@@ -20,6 +19,7 @@ export async function POST(req: NextRequest) {
         const body = await req.json();
         const { email, password, name } = body;
 
+        // Data Validation
         if (!email || !password || !name) {
             return NextResponse.json(
                 { error: 'Email, senha e nome são obrigatórios!'}, 
@@ -28,9 +28,9 @@ export async function POST(req: NextRequest) {
         }
 
         //Verification if email already exists in database
-        const checkQuery = 'SELECT COUNT(*) as count FROM contas.usuarios WHERE email = ?';
-        const [rows] = await db.execute(checkQuery, [email])
-        const {count} = (rows as any)[0];
+        const checkQuery = 'SELECT COUNT(*) as count FROM users WHERE email = $1';
+        const {rows} = await db.query(checkQuery, [email])
+        const {count} = rows[0];
 
         if (count > 0) {
             return NextResponse.json(
@@ -43,18 +43,15 @@ export async function POST(req: NextRequest) {
         const hashedPassword = await bcrypt.hash(password, 10)
 
         //insertion on database
-        const insertQuery = 'INSERT INTO usuarios (email,password, name) VALUES (?, ?, ?)';
-        await db.execute(insertQuery, [email, hashedPassword, name]);
+        const insertQuery = 'INSERT INTO users (email,password, name) VALUES ($1, $2, $3)';
+        await db.query(insertQuery, [email, hashedPassword, name]);
 
         const token = jwt.sign({ email }, JWT_SECRET as string, {
             expiresIn: '7d'
         });
 
         const response =  NextResponse.json(
-            { 
-                message: 'Email Cadastrado com Sucesso!',
-                token,
-            },
+            { message: 'Email Cadastrado com Sucesso!', token},
             { status: 201}
         );
         response.cookies.set('authToken', token, {

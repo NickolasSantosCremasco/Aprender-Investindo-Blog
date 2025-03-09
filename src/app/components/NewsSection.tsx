@@ -28,8 +28,8 @@ export default function NewsSection () {
                     const articles = await  response.json();
                 
                     if (articles.length > 0) {
-                        setMainNews(articles[0].slice(0, 4))
-                        setSecondaryNews(articles[0].slice(4))
+                        setMainNews(articles.slice(0, 4))
+                        setSecondaryNews(articles.slice(4))
                     }
                     //Organization of the news between de main and secondaries
                     
