@@ -12,7 +12,7 @@ const db = new Pool({
 
 
 
-export async function GET(req: NextRequest) {
+export async function GET() {
     try {
         // Search for the articles on the database
         const { rows } = await db.query('SELECT * FROM articles ORDER BY created_at DESC');
