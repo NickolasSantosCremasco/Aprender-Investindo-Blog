@@ -3,7 +3,7 @@ import React, { useEffect } from "react"
 import { useState, ChangeEvent, FormEvent } from "react"
 import { useRouter, useSearchParams } from "next/navigation";
 
-export default function editArticle() {
+export default function EditArticle() {
    const [title, setTitle] = useState('');
    const [subtitle, setSubtitle] = useState('');
    const [text, setText] = useState('');

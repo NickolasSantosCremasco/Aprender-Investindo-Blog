@@ -35,6 +35,7 @@ export default function NewArticle() {
     e.preventDefault(); 
     setLoading(true);
     setMessage(null); 
+    setError(null)
 
     const formData = new FormData();
     
@@ -138,7 +139,7 @@ export default function NewArticle() {
                         <button 
                             type="submit"
                             disabled={loading}
-                            className="px-6 py-2 ${loading ? 'bg-blue-500' : 'bg-blue-600} bg-blue-600 text-white font-medium rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-blue-500 focus:ring-offset-2"
+                            className={`px-6 py-2 ${loading ? 'bg-blue-500' : 'bg-blue-600'} bg-blue-600 text-white font-medium rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-blue-500 focus:ring-offset-2`}
                         >
                             {loading? 'Publicando...':'Publicar Artigo'}
                         </button>
