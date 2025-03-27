@@ -113,7 +113,7 @@ export default function Contact() {
                             
                         >
                             <option value="">Nenhum</option>
-                            <option value="consultoria financeira">Consultoria Financeira</option>
+                            <option value="consultoria financeira">Parceria e Afiliação</option>
                             <option value="Ferramentas de Gestão Financeira">Ferramentas de Gestão financeira</option>
                             <option value="Automação de Finanças Pessoais">Automação de Finanças Pessoais</option>
                             <option value="Desenvolvimento de Site ou App">Desenvolvimento de Site ou App</option>
