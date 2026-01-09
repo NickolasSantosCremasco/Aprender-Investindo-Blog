@@ -1,0 +1,29 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"  // CORREÇÃO: Adicionado o "-js" no final
+  // Removi a linha 'output' para usar o padrão (node_modules), que é mais fácil de importar
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")          // Conexão rápida (Pool)
+  directUrl = env("DATABASE_URL_UNPOOLED") // NOVO: Conexão direta (Obrigatório para o Neon)
+}
+
+// Modelo atualizado com os campos que vi no seu código (subtitle, image_url)
+model Post {
+  id        String   @id @default(cuid())
+  title     String
+  subtitle  String?  // O "?" significa opcional (pode ser nulo)
+  content   String   @db.Text
+  image_url String?  // Opcional
+  slug      String   @unique
+  published Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Se você preferir que a tabela no banco se chame "articles" (igual seu código antigo), 
+  // descomente a linha abaixo:
+  // @@map("articles")
+}
