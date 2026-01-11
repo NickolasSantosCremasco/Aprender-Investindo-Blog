@@ -24,6 +24,7 @@ export default function NewsSection () {
         useEffect(() => {
             async function fetchNews() {
                 try {
+                    // O nome da rota deve bater com sua pasta (getArticles no plural)
                     const response = await fetch('/api/getArticles');
                     const articles = await  response.json();
                 
@@ -31,7 +32,6 @@ export default function NewsSection () {
                         setMainNews(articles.slice(0, 4))
                         setSecondaryNews(articles.slice(4))
                     }
-                    //Organization of the news between de main and secondaries
                     
                 } catch(error) {
                     console.error('Erro ao carregar as notícias:', error);
@@ -44,12 +44,12 @@ export default function NewsSection () {
                 try {
                     const response = await fetch('/api/checkAdmin')
                     if (!response.ok) {
-                        throw new Error('Erro ao verificar autenticação.')
+                        // Não jogue erro aqui para não travar a tela se não for admin, apenas ignore
+                        return;
                     }
                     const data = await response.json();
                     setIsAdmin(data.is_admin)
                 } catch(error) {
-                   
                     console.error('Erro ao verificar a autenticação:', error);
                 }
             }
@@ -103,61 +103,76 @@ export default function NewsSection () {
                     {/* Mainly News */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:w-2/3">
                         {mainNews.map((item) => (
-                            <div key={item.id} onClick={() => router.push(`/pages/article?id=${item.id}`)} className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg cursor-pointer hover:scale-105 transition-all">
+                            <div key={item.id} onClick={() => router.push(`/pages/article?id=${item.id}`)} className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg cursor-pointer hover:scale-105 transition-all relative group">
                                 <img 
-                                    src={item.image_url} 
+                                    // AJUSTE 1: Fallback se a URL vier vazia
+                                    src={item.image_url || 'https://via.placeholder.com/600x400'} 
                                     alt={item.title}
                                     className="w-full h-48 object-cover"
                                 />
                                 <div className="p-6">
                                     {isAdmin && (
-                                        <div className="float-right space-x-2">
-                                            <Trash2 
-                                                onClick={(e) => {
-                                                    e.stopPropagation(); //stop the event propagation
-                                                    handleDelete(item.id)
-                                                }} 
-                                                className="float-right p-1  w-9 h-9 text-black text-4xl mt-1 hover:text-red-400 hover:transition-all hover:scale-110 rounded-lg"
-                                            />
-                                            <Pencil 
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    router.push(`/pages/editArticle?id=${item.id}`)
-                                                }} 
-                                                className="float-right mt-3 text-black hover:scale-110 transition-all hover:text-blue-400"
-                                            />
+                                        <div className="absolute top-2 right-2 bg-white/80 rounded-lg p-1 hidden group-hover:block">
+                                            {/* Botões de Admin (Trash/Pencil) */}
+                                            <div className="flex gap-2">
+                                                <Pencil 
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        router.push(`/pages/editArticle?id=${item.id}`)
+                                                    }} 
+                                                    className="w-5 h-5 text-blue-600 hover:text-blue-800 cursor-pointer"
+                                                />
+                                                <Trash2 
+                                                    onClick={(e) => {
+                                                        e.stopPropagation(); 
+                                                        handleDelete(item.id)
+                                                    }} 
+                                                    className="w-5 h-5 text-red-600 hover:text-red-800 cursor-pointer"
+                                                />
+                                            </div>
                                         </div>
                                     )}
                                     
-                                    <h2 className="text-2xl font-bold text-gray-800">{item.title}</h2>
-                                    <p className="text-gray-600 mt-2">{item.subtitle}</p>
+                                    <h2 className="text-2xl font-bold text-gray-800 line-clamp-2">{item.title}</h2>
+                                    <p className="text-gray-600 mt-2 line-clamp-3">{item.subtitle}</p>
                                 
                                     <p className="text-sm text-gray-400 mt-4">Publicado em: {new Date(item.created_at).toLocaleDateString('pt-BR')}</p>
                                 </div>
                             </div>
                         ))}
                     </div>
+                    
+                    {/* Últimas Notícias (Barra Lateral) */}
                     <div className="lg:w-1/3 ">
                     {isAdmin && (
                         <button 
-                            className="border-2 rounded-lg pt-1 pb-1 pl-4 pr-4 hover:scale-105 transition-all hover:bg-yellow-400 float-right cursor-pointer" 
+                            className="border-2 rounded-lg pt-1 pb-1 pl-4 pr-4 hover:scale-105 transition-all hover:bg-yellow-400 float-right cursor-pointer mb-4" 
                             onClick={() => router.push('/pages/newArticle')}>
                                 Novo Artigo
                         </button>
                     )}
     
-                        <h3 className="text-lg font-semibold mb-4">Últimas Notícias</h3>
+                        <h3 className="text-lg font-semibold mb-4 clear-both">Últimas Notícias</h3>
                         <ul className="space-y-4">
                             {secondaryNews.map((news) => (
                                 <li
                                     key={news.id}
-                                    className="bg-white overflow-auto h-32 shadow-md rounded-lg hover:shadow-lg transition-shadow flex cursor-pointer"
+                                    // AJUSTE 2: Adicionado onClick aqui, senão clicar não fazia nada
+                                    onClick={() => router.push(`/pages/article?id=${news.id}`)}
+                                    className="bg-white overflow-hidden h-32 shadow-md rounded-lg hover:shadow-lg transition-shadow flex cursor-pointer hover:bg-gray-50"
                                 >
-                                    <img src={news.image_url} className="object-cover w-24 overflow-hidden "  alt={news.title} />
-                                    <div className="p-5">
-                                        <p className="text-yellow-400">Nickolas Cremasco</p>
-                                        <h4 className="text-lg font-semibold text-gray-800">{news.title}</h4>
-                                        <p className="text-sm text-gray-400 mt-2">{news.created_at}</p>
+                                    <img 
+                                        // AJUSTE 3: Fallback de imagem aqui também
+                                        src={news.image_url || 'https://via.placeholder.com/150'} 
+                                        className="object-cover w-32 h-full"  
+                                        alt={news.title} 
+                                    />
+                                    <div className="p-3 flex flex-col justify-center">
+                                        <p className="text-xs text-yellow-500 font-bold uppercase">Nickolas Cremasco</p>
+                                        <h4 className="text-sm md:text-base font-semibold text-gray-800 line-clamp-2 leading-tight">{news.title}</h4>
+                                        <p className="text-xs text-gray-400 mt-1">
+                                            {new Date(news.created_at).toLocaleDateString('pt-BR')}
+                                        </p>
                                     </div>
                                 </li>
                             ))}
@@ -165,8 +180,6 @@ export default function NewsSection () {
                         
                     </div>
                 </div>
-
-
             </div>
         </section>
     )

@@ -1,13 +1,14 @@
 'use client';
-import React, { useEffect } from 'react';
-import { useState, ChangeEvent, FormEvent } from 'react';
+import React, { useEffect,  useState, FormEvent, ChangeEvent } from 'react';
+
 import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function EditArticle() {
   const [title, setTitle] = useState('');
   const [subtitle, setSubtitle] = useState('');
-  const [text, setText] = useState('');
+  const [content, setContent] = useState('');
   const [imageUrl, setImageUrl] = useState('');
+
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -21,13 +22,14 @@ export default function EditArticle() {
     if (!id) return;
     const fetchArticle = async () => {
       try {
+        //Check if the get one article route is correct
         const response = await fetch(`/api/getArticles?id=${id}`);
         if (response.ok) {
           const data = await response.json();
-          setTitle(data.title);
-          setSubtitle(data.subtitle);
-          setText(data.content);
-          setImageUrl(data.image_url);
+          setTitle(data.title || '');
+          setSubtitle(data.subtitle || '');
+          setContent(data.content || '');
+          setImageUrl(data.image_url || '');
         } else {
           setError('Erro ao carregar o artigo.');
         }
@@ -38,21 +40,6 @@ export default function EditArticle() {
     };
     fetchArticle();
   }, [id]);
-
-  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]; // Verification if any file is selected
-    if (file) {
-      if (file.size > 5 * 1024 * 1024) {
-        alert('O arquivo deve ter no máximo 5MB.');
-        return;
-      }
-      if (!file.type.startsWith('image/')) {
-        alert('Por favor, envie um arquivo de imagem válido.');
-        return;
-      }
-      setImageUrl(URL.createObjectURL(file)); // Atualiza a URL da imagem para exibição
-    }
-  };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -65,22 +52,27 @@ export default function EditArticle() {
     setError(null);
 
     try {
+      //CONSTRUÇÃO DO PAYLOAD
+      const payload = {
+        id,
+        title,
+        subtitle,
+        content,
+        image_url: imageUrl,
+      };
+
       const response = await fetch('/api/editArticle', {
         method: 'PATCH',
-        body: JSON.stringify({
-          id,
-          title,
-          subtitle,
-          content: text,
-          image_url: imageUrl,
-        }),
+        body: JSON.stringify(payload),
         headers: {
           'Content-Type': 'application/json',
         },
       });
+
       if (response.ok) {
         setMessage('Artigo editado com sucesso.');
-        setTimeout(() => router.push('/'), 3000);
+        router.refresh();
+        setTimeout(() => router.push('/'), 2000);
       } else {
         const errorData = await response.json();
         setError(`Erro ao editar o artigo: ${errorData.error}`);
@@ -90,7 +82,6 @@ export default function EditArticle() {
     } catch (error) {
       console.error('Erro ao editar o artigo:', error);
       setError('Erro ao editar o artigo. Tente novamente mais tarde.');
-      setMessage('');
     } finally {
       setLoading(false);
     }
@@ -101,6 +92,7 @@ export default function EditArticle() {
       <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-2xl">
         <h1 className="text-2xl font-bold text-gray-800 mb-6 text-center">Edite Este Artigo</h1>
         <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Campo Título */}
           <div>
             <label htmlFor="title" className="block text-sm font-medium text-gray-700">
               Título:
@@ -114,6 +106,8 @@ export default function EditArticle() {
               placeholder="Digite o Título do Artigo"
             />
           </div>
+
+             {/* Campo Subtítulo */}
           <div>
             <label htmlFor="subtitle" className="block text-sm font-medium text-gray-700">
               Subtítulo:
@@ -127,30 +121,41 @@ export default function EditArticle() {
               placeholder="Digite o subtítulo do artigo"
             />
           </div>
+
+             {/* Campo Texto */}
           <div>
             <label htmlFor="text" className="block text-sm font-medium text-gray-700">
               Texto:
             </label>
             <textarea
               id="text"
-              value={text || ''}
-              onChange={(e) => setText(e.target.value)}
+              value={content || ''}
+              onChange={(e) => setContent(e.target.value)}
               rows={6}
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
               placeholder="Digite o conteúdo do artigo"
             />
           </div>
+
+          {/* Campo Imagem (URL) */}
           <div>
             <label htmlFor="image" className="block text-sm font-medium text-gray-700">
               Imagem:
             </label>
             <input
-              type="file"
+              type="text"
               id="image"
-              accept="image/*"
-              onChange={handleImageChange}
+              value={imageUrl}
+              onChange={(e) => setImageUrl(e.target.value)}
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              placeholder='Ex: https://i.imgur.com/foto.jpg'
             />
+            {imageUrl && (
+              <div className="mt-2">
+                    <p className="text-xs text-gray-500 mb-1">Pré-visualização:</p>
+                    <img src={imageUrl} alt="Preview" className="h-24 w-auto rounded object-cover border" />
+                </div>
+            )}
           </div>
           <div className="text-center">
             <button
@@ -158,11 +163,12 @@ export default function EditArticle() {
               disabled={loading}
               className={`px-6 py-2 ${loading ? 'bg-blue-500' : 'bg-blue-600'} text-white font-medium rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-blue-500 focus:ring-offset-2`}
             >
-              {loading ? 'Alterando...' : 'Alterar Artigo'}
+              {loading ? 'Salvando...' : 'Salvar Alterações'}
             </button>
           </div>
+          {/* Mensagens de Sucesso e Erro */}
           {message && (
-            <div className="mt-4 p-2 text-white bg-green-500 rounded-md">
+            <div className="mt-4 p-2 text-white bg-green-500 rounded-md text-center">
               {message}
             </div>
           )}
