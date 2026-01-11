@@ -27,16 +27,21 @@ export default function Register () {
 
             if (response.ok) {
                 setMessage(data.message);
+                
+                if (data.token) {
+                    localStorage.setItem('authToken', data.token);
+                }
+
                 setEmail('');
                 setPassword('');
                 setName('');
                 setError('');
                 hideMessageAfterDelay()
-               
+              
                 setTimeout(() => {
-                    router.push('/pages/login');
-                },2000);
-               
+                    router.push('/'); 
+                }, 2000);
+                
             } else {
                 setError(data.error)
                 setMessage('')
@@ -68,7 +73,7 @@ export default function Register () {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)} 
                             required
-                            className="w-full mt-1 px-4 py-2 border rounded-lg shadow-sm focus:ring-sky-500 focus:border-sky-500"
+                            className="w-full mt-1 px-4 py-2 border rounded-lg shadow-sm focus:ring-sky-500 focus:border-sky-500 text-black"
                         />
                     </div>
                     <div className="mb-4">
@@ -80,19 +85,19 @@ export default function Register () {
                             onChange={(e) => setPassword(e.target.value)}
                             required
                             
-                            className="w-full mt-1 px-4 py-2 border rounded-lg shadow-sm focus:ring-sky-500 focus:border-sky-500"
+                            className="w-full mt-1 px-4 py-2 border rounded-lg shadow-sm focus:ring-sky-500 focus:border-sky-500 text-black"
                          />
                     </div>
                     <div className="mb-4">
                         <label htmlFor="name" className="block text-sm font-medium text-gray-700">Seu Nome <span className="text-blue-500">(Aparecerá ao postar um artigo!)</span></label>
                         <input 
-                            type="name"
+                            type="text" 
                             id="name"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             required
                             
-                            className="w-full mt-1 px-4 py-2 border rounded-lg shadow-sm focus:ring-sky-500 focus:border-sky-500"
+                            className="w-full mt-1 px-4 py-2 border rounded-lg shadow-sm focus:ring-sky-500 focus:border-sky-500 text-black"
                          />
                     </div>
                     <button 
@@ -104,8 +109,9 @@ export default function Register () {
                 </form>
                 {/* Feedback Messages */}
                 
-                {message && <p style={{color: 'green'}}> {message}</p>}
-                {error && <p style={{color: 'red'}}> {error}</p>}
+                {message && <p className="mt-4 text-center text-green-600 font-medium"> {message}</p>}
+                {error && <p className="mt-4 text-center text-red-600 font-medium"> {error}</p>}
+                
                 <p className="text-sm text-gray-600 mt-4 text-center">
                     Já possui uma conta? <span className="text-sky-500 hover:underline cursor-pointer" onClick={() => router.push('/pages/login')}>Entrar</span>
                 </p>

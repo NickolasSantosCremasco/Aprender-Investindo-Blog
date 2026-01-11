@@ -51,6 +51,7 @@ export default function Contact() {
             document.body.style.backgroundRepeat = '';
         };
     }, [])
+
     return (
         <section className="mx-auto max-w-screen-md mt-5 mb-5 rounded-xl overflow-hidden  " style={{boxShadow: '0 0px 10px 10px rgba(255, 255, 255, 0.3), 0 2px 4px -1px rgba(59, 130, 246, 0.06)'}}>
             
@@ -76,12 +77,13 @@ export default function Contact() {
                             name="name" 
                             id="name" 
                             placeholder="Digite seu Nome" 
-                            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                          
+                            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black"
                             required
                         />
                     </div>
                     <div>
-                        <label htmlFor="email" className="block">
+                        <label htmlFor="email" className="block text-gray-700 font-medium text-sm">
                             Email
                         </label>
                         <input 
@@ -89,7 +91,8 @@ export default function Contact() {
                             name="email" 
                             id="email" 
                             placeholder="Digite seu Email" 
-                            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                           
+                            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black"
                             required
                         />
                     </div>
@@ -100,7 +103,8 @@ export default function Contact() {
                             name="tel" 
                             id="tel" 
                             placeholder="Digite seu Número" 
-                            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                       
+                            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black"
                             required
                         />
                     </div>
@@ -109,7 +113,8 @@ export default function Contact() {
                         <select 
                             name="services" 
                             id="services"
-                            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                       
+                            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black"
                             
                         >
                             <option value="">Nenhum</option>
@@ -120,12 +125,13 @@ export default function Contact() {
                         </select>
                    </div>
                     <div>
-                        <label htmlFor="msg" className="block">Digite Sua Mensagem</label>
+                        <label htmlFor="msg" className="block text-gray-700 font-medium text-sm">Digite Sua Mensagem</label>
                         <textarea 
                             name="msg" 
                             id="msg" 
                             placeholder="Digite sua Mensagem" 
-                            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:ring:border-blue-500"
+                          
+                            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:ring:border-blue-500 text-black"
                             required
                         ></textarea>
                     </div>

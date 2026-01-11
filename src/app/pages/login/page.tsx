@@ -28,12 +28,13 @@ export default function Login () {
             const data = await response.json()
             
             if (response.ok) {
-                //save the token in localStorage
+              
                 localStorage.setItem('authToken', data.token)
+                
                 setMessage(data.message);
                 setError('');
                 
-                //Redirection to initial page
+               
                 setTimeout(() => {
                     router.push('/');
                 }, 2000);
@@ -61,29 +62,34 @@ export default function Login () {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)} 
                             required
-                            className="w-full mt-1 px-4 py-2 border rounded-lg shadow-sm focus:ring-sky-500 focus:border-sky-500"
+
+                            className="w-full mt-1 px-4 py-2 border rounded-lg shadow-sm focus:ring-sky-500 focus:border-sky-500 text-black"
                         />
                     </div>
                     <div className="mb-4">
                         <label htmlFor="password" className="block text-sm font-medium text-gray-700">Senha</label>
                         <input 
-                            type="password"
+                            type="password" 
                             id="password"
                             value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            onChange={(e) => setPassword(e.target.value)} 
                             required
-                            className="w-full mt-1 px-4 py-2 border rounded-lg shadow-sm focus:ring-sky-500 focus:border-sky-500"
+                            
+                            className="w-full mt-1 px-4 py-2 border rounded-lg shadow-sm focus:ring-sky-500 focus:border-sky-500 text-black"
                          />
                     </div>
                     <button 
-                        type="submit"
+                        type="submit" 
                         className="w-full bg-sky-600 text-white py-2 px-4 rounded-lg hover:bg-sky-500 transition"
                     >
                         Entrar
                     </button>
                 </form>
-                {message && <p style={{ color: "green"}}>{message}</p>}
-                {error && <p style={{ color: "red"}}>{error}</p>}
+                
+               
+                {message && <p className="mt-4 text-center text-green-600 font-medium">{message}</p>}
+                {error && <p className="mt-4 text-center text-red-600 font-medium">{error}</p>}
+                
                 <p className="text-sm text-gray-600 mt-4 text-center">
                     Não tem uma conta? <span className="text-sky-500 hover:underline cursor-pointer" onClick={() => router.push('/pages/register')}>Cadastre-se</span>
                 </p>
