@@ -68,9 +68,10 @@ export async function POST(req: NextRequest) {
             email: user.email,
             is_admin: user.is_admin
         }
-        //Generate a JWT token (Valid for 1 hour)
+        
+        // AJUSTE DE TEMPO: Mudado de '1h' para '7d' para igualar ao Register
         const token = jwt.sign(payload, JWT_SECRET as string, {
-            expiresIn: '1h',
+            expiresIn: '7d', 
         });
 
         //Sucess return with token
@@ -78,11 +79,13 @@ export async function POST(req: NextRequest) {
             {message: 'Login bem sucedido!', token},
             {status: 200}
         );
+        
+        // AJUSTE DE COOKIE: Mudado maxAge para 7 dias (em segundos)
         response.cookies.set('authToken', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'strict',
-            maxAge: 3600,
+            maxAge: 7 * 24 * 60 * 60, 
             path: '/'
         });
         return response

@@ -1,13 +1,13 @@
-//import mysql from 'mysql2/promise'
 import {Pool} from 'pg';
 import { NextResponse, NextRequest } from 'next/server'
-import fs from 'fs/promises'; //for arquives manipulation
-import path from 'path'; //path manipulation
+
+// Removemos 'fs' e 'path' pois não vamos mais mexer em arquivos físicos
 
 const db = new Pool({
     connectionString: process.env.DB_URL,
     ssl: {rejectUnauthorized: false}
 })
+
 export async function DELETE(req: NextRequest ) {
     try {
         const { id } = await req.json();
@@ -19,18 +19,8 @@ export async function DELETE(req: NextRequest ) {
             )
         };
         
-        const { rows } = await db.query('SELECT image_url FROM articles WHERE id = $1', [id]);
-
-        const imageUrl = rows[0].image_url
-
-        if (imageUrl) {
-            const imagePath = path.join(process.cwd(), 'public','uploads', imageUrl);
-            try {
-                await fs.unlink(imagePath);
-            } catch (error) {
-                console.error(`Erro ao deletar a imagem: ${imagePath}`, error)
-            }
-        }
+        // --- MUDANÇA: Removemos a parte que buscava a imagem e tentava apagar do disco ---
+        // Agora vamos direto para deletar o registro do banco.
 
         const result = await db.query('DELETE FROM articles WHERE id = $1', [id])
 
@@ -53,5 +43,4 @@ export async function DELETE(req: NextRequest ) {
             {status: 500}
         )
     }
-    
 }

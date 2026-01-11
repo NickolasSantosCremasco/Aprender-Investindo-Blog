@@ -1,10 +1,8 @@
-import {Pool} from 'pg';
-//import mysql from 'mysql2/promise';
-import { NextResponse } from 'next/server';
-import { NextRequest } from 'next/server';
-import fs from 'fs';
-import path from 'path';
+import { Pool } from 'pg';
+import { NextResponse, NextRequest } from 'next/server';
 import jwt from 'jsonwebtoken';
+
+// Removemos 'fs' e 'path' pois não vamos mais salvar arquivos no disco do servidor
 
 const db = new Pool({
    connectionString: process.env.DB_URL,
@@ -15,7 +13,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 export async function POST(req: NextRequest) {
     try {
-        // Verificação do token e decodificação
+        // 1. Verificação de TOKEN (Mantive idêntico, pois é segurança)
         const token = req.cookies.get('authToken')?.value;
         if (!token) {
             return NextResponse.json(
@@ -35,9 +33,10 @@ export async function POST(req: NextRequest) {
             )
         }
 
+        // 2. Pegar o ID do Usuário (Mantive idêntico)
         const userEmail = decoded.email
-        // Get user_id by email
         const { rows } = await db.query('SELECT id FROM users WHERE email = $1', [userEmail]);
+        
         if (rows.length === 0) {
             return NextResponse.json(
                 {error: 'Usuário não encontrado!'},
@@ -46,40 +45,32 @@ export async function POST(req: NextRequest) {
         }
         const userId = rows[0].id;
 
-        // get form data
-        const formData = await req.formData();
-        const title = formData.get('title');
-        const subtitle = formData.get('subtitle');
-        const text = formData.get('text');
-        const image = formData.get('image');
+        // 3. MUDANÇA CRÍTICA: Receber JSON em vez de FormData
+        // O frontend envia: { title, subtitle, content, image_url }
+        const body = await req.json();
+        const { title, subtitle, content, image_url } = body;
 
-        if (typeof title !== 'string' || typeof subtitle !== 'string' || typeof text !== 'string' || !(image instanceof File)) {
+        // 4. Validação simples
+        if (!title || !subtitle || !content || !image_url) {
             return NextResponse.json(
-                { error: 'Todos os Dados São Obrigatórios e precisam ser válidos!' },
+                { error: 'Todos os campos (título, subtítulo, conteúdo e link da imagem) são obrigatórios!' },
                 { status: 400 }
             );
         }
 
-        // Save the image on server
-        const uploadDir = path.join(process.cwd(), 'public', 'uploads');
-        if (!fs.existsSync(uploadDir)) {
-            fs.mkdirSync(uploadDir, { recursive: true });
-        }
-
-        const filePath = path.join(uploadDir, image.name);
-        fs.writeFileSync(filePath, Buffer.from(await image.arrayBuffer()));
-
-        const imageUrl = `uploads/${image.name}`;
-
-        // Database on Insertion
+        // 5. Inserção no Banco
+        // Note que removemos toda a parte de 'fs.writeSync'.
+        // Salvamos direto a string da URL que veio do frontend.
         const query = 'INSERT INTO articles (title, subtitle, content, image_url, author_id) VALUES ($1, $2, $3, $4, $5)';
-        await db.query(query, [title, subtitle, text, imageUrl, userId]);
+        
+        // Importante: Usamos a variável 'content' que criamos acima
+        await db.query(query, [title, subtitle, content, image_url, userId]);
 
-        const response = NextResponse.json(
+        return NextResponse.json(
             { message: 'Publicação Efetuada com Sucesso!' },
             { status: 201 }
         );
-        return response;
+
     } catch (error) {
         console.error('Erro ao processar a requisição', error)
         return NextResponse.json(
