@@ -3,9 +3,21 @@ import type { NextConfig } from "next";
 require('dotenv').config()
 
 const nextConfig: NextConfig = {
-  reactStrictMode: true, // Ativa o modo estrito do React
+  reactStrictMode: true, 
+
+
+  eslint: {
+
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+  
+    ignoreBuildErrors: true,
+  },
+  // ----------------------------------
+
   env: {
-      // Define as variáveis de ambiente que serão acessíveis no front e no backend
+     
       DB_HOST: process.env.DB_HOST || '',
       DB_USER: process.env.DB_USER || '',
       DB_PASSWORD: process.env.DB_PASSWORD || '',

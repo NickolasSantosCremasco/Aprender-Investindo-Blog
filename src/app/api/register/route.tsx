@@ -3,7 +3,7 @@ import { Pool } from "pg";
 import bcrypt from 'bcryptjs'
 import jwt from "jsonwebtoken"; 
 
-
+// eslint-disable-next-line no-var
 declare global {
   var pool: Pool | undefined;
 }
@@ -13,7 +13,7 @@ let pool: Pool;
 if (!global.pool) {
   global.pool = new Pool({ 
     connectionString: process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: false } 
+    ssl: { rejectUnauthorized: false }
   });
 }
 pool = global.pool;
@@ -33,11 +33,9 @@ export async function POST(req: NextRequest) {
             );
         }
 
-        // --- AJUSTE 2: Convertendo o count para Inteiro ---
         const checkQuery = 'SELECT COUNT(*) as count FROM users WHERE email = $1';
         const { rows } = await db.query(checkQuery, [email])
         
-        // O Postgres retorna count como String. Convertemos para Number.
         const userCount = Number(rows[0].count); 
 
         if (userCount > 0) {
@@ -46,7 +44,6 @@ export async function POST(req: NextRequest) {
                 { status: 400 }
             );
         }
-        // --------------------------------------------------
 
         const hashedPassword = await bcrypt.hash(password, 10)
 
@@ -71,7 +68,6 @@ export async function POST(req: NextRequest) {
       
         return response;
     } catch (error: unknown) {
-        // Logar o erro ajuda muito no debug
         console.error('Erro no registro:', error); 
         
         if(error instanceof Error) {
@@ -80,7 +76,6 @@ export async function POST(req: NextRequest) {
                 { status: 500 }
             );
         }
-        // Fallback caso o erro não seja instância de Error
          return NextResponse.json(
                 { error: 'Erro desconhecido.' }, 
                 { status: 500 }

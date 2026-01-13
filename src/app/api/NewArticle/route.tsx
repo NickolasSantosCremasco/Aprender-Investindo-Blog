@@ -2,7 +2,6 @@ import { Pool } from 'pg';
 import { NextResponse, NextRequest } from 'next/server';
 import jwt from 'jsonwebtoken';
 
-// Removemos 'fs' e 'path' pois não vamos mais salvar arquivos no disco do servidor
 
 const db = new Pool({
    connectionString: process.env.DATABASE_URL,
@@ -13,7 +12,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 export async function POST(req: NextRequest) {
     try {
-        // 1. Verificação de TOKEN (Mantive idêntico, pois é segurança)
+        
         const token = req.cookies.get('authToken')?.value;
         if (!token) {
             return NextResponse.json(
@@ -33,7 +32,7 @@ export async function POST(req: NextRequest) {
             )
         }
 
-        // 2. Pegar o ID do Usuário (Mantive idêntico)
+   
         const userEmail = decoded.email
         const { rows } = await db.query('SELECT id FROM users WHERE email = $1', [userEmail]);
         
@@ -48,7 +47,7 @@ export async function POST(req: NextRequest) {
         const body = await req.json();
         const { title, subtitle, content, image_url } = body;
 
-        // 4. Validação simples
+     
         if (!title || !subtitle || !content || !image_url) {
             return NextResponse.json(
                 { error: 'Todos os campos (título, subtítulo, conteúdo e link da imagem) são obrigatórios!' },
