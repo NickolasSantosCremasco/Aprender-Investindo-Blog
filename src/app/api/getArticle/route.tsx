@@ -5,7 +5,7 @@ import { NextResponse } from 'next/server';
 export const dynamic = 'force-dynamic'; 
 
 const db = new Pool({
-    connectionString: process.env.DB_URL,
+    connectionString: process.env.DATABASE_URL,
     ssl: {rejectUnauthorized: false}
 });
 

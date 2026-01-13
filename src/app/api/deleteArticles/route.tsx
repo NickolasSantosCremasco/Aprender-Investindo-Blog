@@ -4,7 +4,7 @@ import { NextResponse, NextRequest } from 'next/server'
 // Removemos 'fs' e 'path' pois não vamos mais mexer em arquivos físicos
 
 const db = new Pool({
-    connectionString: process.env.DB_URL,
+    connectionString: process.env.DATABASE_UR,
     ssl: {rejectUnauthorized: false}
 })
 

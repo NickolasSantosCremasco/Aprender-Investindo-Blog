@@ -3,7 +3,7 @@ import {Pool} from 'pg';
 import { NextRequest, NextResponse } from 'next/server'
 
 const db = new Pool({
-    connectionString: process.env.DB_URL,
+    connectionString: process.env.DATABASE_URL,
     ssl: {rejectUnauthorized: false}
 });
 
