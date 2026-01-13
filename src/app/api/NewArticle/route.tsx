@@ -45,8 +45,6 @@ export async function POST(req: NextRequest) {
         }
         const userId = rows[0].id;
 
-        // 3. MUDANÇA CRÍTICA: Receber JSON em vez de FormData
-        // O frontend envia: { title, subtitle, content, image_url }
         const body = await req.json();
         const { title, subtitle, content, image_url } = body;
 
@@ -58,12 +56,11 @@ export async function POST(req: NextRequest) {
             );
         }
 
-        // 5. Inserção no Banco
-        // Note que removemos toda a parte de 'fs.writeSync'.
-        // Salvamos direto a string da URL que veio do frontend.
-        const query = 'INSERT INTO articles (title, subtitle, content, image_url, author_id) VALUES ($1, $2, $3, $4, $5)';
+     
+       
+        const query = 'INSERT INTO articles (title, subtitle, content, image_url, user_id) VALUES ($1, $2, $3, $4, $5)';
         
-        // Importante: Usamos a variável 'content' que criamos acima
+       
         await db.query(query, [title, subtitle, content, image_url, userId]);
 
         return NextResponse.json(
