@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@next/third-parties": "^16.1.1",
     "@prisma/client": "^6.19.1",
     "@sendgrid/mail": "^8.1.4",
     "bcrypt": "^5.1.1",
