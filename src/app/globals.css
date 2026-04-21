@@ -2,3 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Remove o limite de altura/largura que causa o corte das setas */
+.swiper {
+    overflow: visible !important; 
+}
+
+/* Posiciona as setas para fora do container do conteúdo */
+.swiper-button-prev,
+.swiper-button-next {
+    color: #22c55e !important; /* Cor verde do seu projeto */
+    top: 50% !important;
+    width: 40px !important;
+    height: 40px !important;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+}
+
+/* Ajuste fino para desktop */
+@media (min-width: 768px) {
+    .swiper-button-prev {
+        left: -50px !important; /* Move para fora à esquerda */
+    }
+    .swiper-button-next {
+        right: -50px !important; /* Move para fora à direita */
+    }
+}

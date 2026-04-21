@@ -134,7 +134,7 @@ export default function HeroSection() {
                             {/* Container do Conteúdo com Ref para GSAP */}
                             <div 
                                 ref={el => heroContentRefs.current[index] = el}
-                                className="w-full flex flex-col md:flex-row items-center gap-10 md:gap-16 h-[450px] md:h-[400px]"
+                                className="w-full over flex flex-col md:flex-row items-center gap-10 md:gap-16 h-[450px] md:h-[400px]"
                             >
                                 
                                 {/* Texto do Slide (Esquerda em Desktop) */}
