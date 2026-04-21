@@ -1,91 +1,110 @@
-    'use client'
-    import {Home,UserRound, Menu, EqualApproximately, LogOut} from 'lucide-react'
-    import { useRouter } from 'next/navigation'
-    import { useEffect, useState } from 'react';
+'use client'
 
-    export default function Navbar() {
+import { Home, Menu, X, LogOut, BriefcaseBusiness, Info } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { useEffect, useState, useRef } from 'react'
+import { gsap } from 'gsap'
 
-        const router = useRouter();
-        const [isLoading, setIsloading] = useState(true)
-        const [isAuthenticated, setIsAuthenticated] = useState(false);
+export default function Navbar() {
+    const router = useRouter()
+    const logoRef = useRef<HTMLHeadingElement>(null)
+    const [isLoading, setIsLoading] = useState(true)
+    const [isAuthenticated, setIsAuthenticated] = useState(false)
+    const [isMenuOpen, setIsMenuOpen] = useState(false)
 
-        //Verification: if token JWT are present in localStorage
-        useEffect(() => {
-            const checkAuth = () => {
-                const token = localStorage.getItem('authToken')
-                setIsAuthenticated(!!token); // transform the value in boolean
-                setIsloading(false)
-            } //Substituition of 'authToken' for the name that is used to save the token
-          checkAuth();
-        }, [])
-
-        //logout function
-        const handleLogout = () => {
-            localStorage.removeItem('authToken'); 
-            setIsAuthenticated(false);
-            router.push('/')
+    // Efeito GSAP para o Logo
+    useEffect(() => {
+        const chars = logoRef.current?.querySelectorAll('.char')
+        if (chars) {
+            gsap.fromTo(chars, 
+                { opacity: 0, y: 10 }, 
+                { opacity: 1, y: 0, duration: 0.3, stagger: 0.05, ease: "power2.out" }
+            )
         }
-        return (
-            
-            <div className="flex flex-col sm:flex-row items-center justify-between pt-7 px-10 pb-7  max-w-screen mx-auto bg-sky-950 text-white shadow-md">
-                {/* Logotipo */}
-                <a className="text-2xl flex items-center" onClick={() => router.push('/')}>
-                    <span className="mr-2 text-yellow-400 w-20"><img src="/uploads/logo.png" alt="logo" /></span>
-                    <span className="mr-2 text-white ">Aprender Investindo</span>
-                </a> 
+    }, [])
 
-                {/* Menu Toggle (Mobile) */}
-                <input className='peer hidden' type="checkbox" id='navbar-open' /> 
-                <label className='cursor-pointer text-2xl pt-2 sm:hidden block' htmlFor="navbar-open" aria-label='Abrir Menu de Navegação'>
-                    <Menu /> 
-                </label>
-                
-                {/* Navigation */}
-                <nav className='peer-checked:block hidden sm:flex sm:items-center w-full' aria-label='Menu de navegação principal'>
-                    <div className='flex flex-1 justify-center'>
-                        <ul className="flex flex-col sm:flex-row sm:gap-x-8 items-center pr-10">
-                            <li className='p-2 flex sm:p-0 cursor-pointer hover:text-yellow-400 transition-all' onClick={() => router.push('/')}>
-                                <Home/>
-                                <span className='pl-1'> Inicial </span>
-                            </li>
-                        
-                        
-                            <li className='p-2 flex sm:p-0 cursor-pointer hover:text-yellow-400 transition-all' onClick={() => router.push('/pages/about')}>
-                                <EqualApproximately/> 
-                                <span className='pl-1'>Sobre Nós</span>
-                            </li>
-                            
-                            <li className='p-2 flex sm:p-0 cursor-pointer hover:text-yellow-400 transition-all' onClick={() => router.push('/pages/contact')}>
-                                <UserRound/> 
-                                <span className='pl-1'>Contato</span>
-                            </li>
-                        </ul>
-                    </div>
-                       
-                        {isLoading ? (
-                            <div className='ml-2 border-2 px-6 py-1 border-orange-600 rounded-xl'>Carregando...</div>
-                        ) : (
-                            <ul className='flex items-center'>
-                                {isAuthenticated ? (
-                                    <li className="flex item-center border rounded-xl py-1 px-2 hover:text-yellow-400 border-red-500 cursor-pointer hover:bg-red-500  transition-all relative">
-                                        <button onClick={handleLogout} className='flex ml-2 text-sm  text-red-500 hover:underline hover:text-white '>
-                                            <LogOut className='w-8'/>
-                                            <h3 className='font-bold w-full text-base'>Sair</h3>
-                                        </button>
-                                    </li>
-                                ) : (
-                                    <li className="flex border-2 border-blue-600 px-6 py-1 rounded-xl hover:bg-sky-700  transition-all cursor-pointer">
-                                        <button onClick={() => router.push('/pages/login')}>
-                                            Login
-                                        </button>
-                                    </li>
-                                )}
-                            </ul>
-                        )}
-                            
-                </nav>
-                
-            </div>
-            
-        )
+    useEffect(() => {
+        const token = localStorage.getItem('authToken')
+        setIsAuthenticated(!!token)
+        setIsLoading(false)
+    }, [])
+
+    // Função auxiliar para quebrar o texto em letras individuais com span
+    const splitText = (text: string) => {
+        return text.split('').map((char, i) => (
+            <span key={i} className="char inline-block">{char}</span>
+        ))
     }
+
+    return (
+        <header className="sticky top-0 z-50 w-full bg-[#000000] border-b border-gray-900">
+            <div className="flex items-center justify-between py-4 px-6 md:px-10 max-w-screen-xl mx-auto">
+                
+                {/* Logo com GSAP Typewriter */}
+                <button 
+                    onClick={() => router.push('/')} 
+                    className="flex items-center gap-2 text-white font-bold text-xl"
+                >
+                    <img src="/uploads/logo.png" alt="logo" className="w-8 h-8" />
+                    <h1 ref={logoRef} className="flex">
+                        {splitText("Fincodes")}
+                        <span className="text-[#22c55e] flex">{splitText("Tech")}</span>
+                    </h1>
+                </button>
+
+                {/* Mobile Toggle */}
+                <button className="sm:hidden text-white" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+                    {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+                </button>
+
+                <nav className={`
+                    ${isMenuOpen ? 'flex' : 'hidden'} 
+                    sm:flex flex-col sm:flex-row 
+                    absolute sm:static top-full left-0 w-full 
+                    bg-[#000000] sm:bg-transparent 
+                    border-b sm:border-0 border-gray-900 
+                    p-6 sm:p-0 
+                    items-center 
+                    gap-6 
+                    sm:flex-1 sm:justify-end /* <--- ISSO RESOLVE A SOBREPOSIÇÃO */
+                `}>
+                    
+                    <ul className="flex flex-col sm:flex-row gap-6 sm:gap-8 font-medium text-gray-400">
+                        <li>
+                            <button onClick={() => { router.push('/'); setIsMenuOpen(false) }} className='flex items-center gap-2 hover:text-[#22c55e] transition-colors'>
+                                <Home size={18}/> Inicial
+                            </button>
+                        </li>
+                        <li>
+                            <button onClick={() => { router.push('/pages/projects'); setIsMenuOpen(false) }} className='flex items-center gap-2 hover:text-[#22c55e] transition-colors'>
+                                <BriefcaseBusiness size={18}/> Projetos
+                            </button>
+                        </li>
+                        <li>
+                            <button onClick={() => { router.push('/pages/about'); setIsMenuOpen(false) }} className='flex items-center gap-2 hover:text-[#22c55e] transition-colors'>
+                                <Info size={18}/> Sobre
+                            </button>
+                        </li>
+                    </ul>
+
+                    {/* O container do botão não precisa mais de border-t, pois o flex resolve o alinhamento */}
+                    <div className="sm:pl-6 pt-4 sm:pt-0">
+                        {isLoading ? (
+                            <div className="w-20 h-8 animate-pulse bg-gray-900 rounded-lg" />
+                        ) : (
+                            isAuthenticated ? (
+                                <button onClick={handleLogout} className="flex items-center gap-2 text-red-500 hover:text-red-400 transition-all font-semibold">
+                                    <LogOut size={18}/> Sair
+                                </button>
+                            ) : (
+                                <button onClick={() => { router.push('/pages/login'); setIsMenuOpen(false) }} className="bg-[#22c55e] hover:bg-[#1da851] text-black px-6 py-2 rounded-full font-bold transition-all hover:scale-105 whitespace-nowrap">
+                                    Acessar Conta
+                                </button>
+                            )
+                        )}
+                    </div>
+                </nav>
+            </div>
+        </header>
+    )
+}
