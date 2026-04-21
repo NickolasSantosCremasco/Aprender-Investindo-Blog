@@ -31,7 +31,7 @@ export default function Features() {
         },
     ]
     return (
-        <section className="max-w-screen-xl mx-auto shadow-2xl py-16 px-8 bg-slate-200">
+        <section className="max-w-screen mx-auto shadow-2xl py-16 px-8 bg-slate-200">
             {/* Header */}
             <div className=" text-black text-center mb-12">
                 <p className="text-yellow-500">Aprender a Investir</p>

@@ -85,14 +85,14 @@ export default function NewsSection () {
       
     if (loading) {
         return (
-            <section className="max-w-screen-xl mx-auto text-sky-900 shadow-2xl py-16 px-8">
+            <section className="max-w-screen mx-auto text-sky-900 shadow-2xl py-16 px-8">
                 <p className="text-center animate-pulse">Carregando as Notícias...</p>
             </section>
         );
     };
    
     return (
-        <section className="max-w-screen-xl mx-auto text-sky-900 shadow-2xl py-16 px-8">
+        <section className="max-w-screen mx-auto text-sky-900 shadow-2xl py-16 px-8">
             <div>
                 {/* Titles */}
                 <h3 className='text-xl font-semibold pl-4 md:pl-0'>Finanças</h3>

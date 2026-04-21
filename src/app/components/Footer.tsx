@@ -2,7 +2,7 @@ import {Instagram, Youtube} from 'lucide-react'
 
 export default function Footer() {
     return (
-        <footer className="max-w-screen-xl mx-auto bg-sky-950 text-white py-8 rounded-b-xl shadow-2xl">
+        <footer className="max-w-screen mx-auto bg-sky-950 text-white py-8 shadow-2xl">
             {/* Mainly Footer Container */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-6">
                 {/* Logo*/}
