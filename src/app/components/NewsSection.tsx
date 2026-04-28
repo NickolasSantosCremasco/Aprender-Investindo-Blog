@@ -1,7 +1,7 @@
 'use client'
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { Trash2, Pencil } from "lucide-react";
+import {Trash2, Pencil, ExternalLink, Plus } from "lucide-react";
 
 
 interface Article {
@@ -25,14 +25,20 @@ export default function NewsSection () {
             async function fetchNews() {
                 try {
                     // O nome da rota deve bater com sua pasta (getArticles no plural)
-                    const response = await fetch('/api/getArticles');
-                    const articles = await  response.json();
+                    // Promise.all para executar ambas as requisições simultaneamente. Isso reduz o tempo de carregamento pela metade, pois o navegador
+                    // não precisa esperar a notícia carregar para verificar se você é admin.
+                    const [newsRes, adminRes] = await Promise.all([
+                        fetch('/api/getArticles'),
+                        fetch('/api/checkAdmin')
+                     ]);
+                    const articles = await newsRes.json();
+                    const adminData = await adminRes.json();
                 
                     if (articles.length > 0) {
-                        setMainNews(articles.slice(0, 4))
-                        setSecondaryNews(articles.slice(4))
+                        setMainNews(articles.slice(0, 4));
+                        setSecondaryNews(articles.slice(4));
                     }
-                    
+                    setIsAdmin(adminData.is_admin || false);
                 } catch(error) {
                     console.error('Erro ao carregar as notícias:', error);
                 } finally {
@@ -73,111 +79,78 @@ export default function NewsSection () {
             if (!response.ok) throw new Error('Erro ao deletar a notícia')
 
             // Update the list removing the article
-            const updatedMainNews = mainNews.filter(article => article.id !== id);
-            const updatedSecondaryNews = secondaryNews.filter(article => article.id !== id)
-            setMainNews(updatedMainNews)
-            setSecondaryNews(updatedSecondaryNews)
+           setMainNews(prev => prev.filter(a => a.id !== id));
+            setSecondaryNews(prev => prev.filter(a => a.id !== id));
         } catch(error) {
             console.error('Erro ao deletar notícia',error);
         }
     }
 
       
-    if (loading) {
-        return (
-            <section className="max-w-screen mx-auto text-sky-900 shadow-2xl py-16 px-8">
-                <p className="text-center animate-pulse">Carregando as Notícias...</p>
-            </section>
-        );
-    };
+  if (loading) return <section className="w-full bg-[#050505] py-20 text-center text-gray-500 font-mono">Loading data stream...</section>;
    
     return (
-        <section className="max-w-screen mx-auto text-sky-900 shadow-2xl py-16 px-8">
-            <div>
-                {/* Titles */}
-                <h3 className='text-xl font-semibold pl-4 md:pl-0'>Finanças</h3>
-                <h1 className='text-4xl font-bold pl-4 md:pl-0'>Notícias em Tempo Real</h1>
+      <section className="w-full bg-[#050505] text-white py-20 px-6 md:px-12">
+            <div className="max-w-screen-xl mx-auto">
                 
-                {/* News Layout */}
-                <div className="flex flex-col lg:flex-row mt-8 gap-8">
-                    {/* Mainly News */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:w-2/3">
+                {/* Header Estilo Dashboard */}
+                <div className="mb-12 border-l-4 border-[#22c55e] pl-6 flex justify-between items-end">
+                    <div>
+                        <h3 className='text-[#22c55e] font-mono uppercase tracking-widest text-sm mb-1'>Insights</h3>
+                        <h1 className='text-4xl md:text-5xl font-extrabold'>Notícias em Tempo Real</h1>
+                    </div>
+                    {isAdmin && (
+                        <button onClick={() => router.push('/pages/newArticle')} className="bg-[#22c55e] text-black px-6 py-2 rounded-lg font-bold hover:bg-[#1da851] flex items-center gap-2 transition-all hover:scale-105">
+                            <Plus size={18} /> Novo Artigo
+                        </button>
+                    )}
+                </div>
+
+                <div className="flex flex-col lg:flex-row mt-8 gap-12">
+                    
+                    {/* Grid Principal: Cards Dark-Tech */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:w-2/3">
                         {mainNews.map((item) => (
-                            <div key={item.id} onClick={() => router.push(`/pages/article?id=${item.id}`)} className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg cursor-pointer hover:scale-105 transition-all relative group">
-                                <img 
-                                    // AJUSTE 1: Fallback se a URL vier vazia
-                                    src={item.image_url || 'https://via.placeholder.com/600x400'} 
-                                    alt={item.title}
-                                    className="w-full h-48 object-cover"
-                                />
+                            <div key={item.id} onClick={() => router.push(`/pages/article?id=${item.id}`)} 
+                                className="bg-[#0a0b10] border border-gray-800 rounded-xl overflow-hidden hover:border-[#22c55e]/50 transition-all cursor-pointer group hover:-translate-y-1 relative"
+                            >
+                                <img src={item.image_url || 'https://via.placeholder.com/600x400'} alt={item.title} className="w-full h-48 object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                                {isAdmin && (
+                                    <div className="absolute top-2 right-2 flex gap-2 bg-black/50 p-2 rounded-lg backdrop-blur">
+                                        <Pencil onClick={(e) => { e.stopPropagation(); router.push(`/pages/editArticle?id=${item.id}`) }} className="w-5 h-5 text-blue-400 hover:text-white" />
+                                        <Trash2 onClick={(e) => { e.stopPropagation(); handleDelete(item.id) }} className="w-5 h-5 text-red-500 hover:text-white" />
+                                    </div>
+                                )}
                                 <div className="p-6">
-                                    {isAdmin && (
-                                        <div className="absolute top-2 right-2 bg-white/80 rounded-lg p-1 hidden group-hover:block">
-                                            {/* Botões de Admin (Trash/Pencil) */}
-                                            <div className="flex gap-2">
-                                                <Pencil 
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        router.push(`/pages/editArticle?id=${item.id}`)
-                                                    }} 
-                                                    className="w-5 h-5 text-blue-600 hover:text-blue-800 cursor-pointer"
-                                                />
-                                                <Trash2 
-                                                    onClick={(e) => {
-                                                        e.stopPropagation(); 
-                                                        handleDelete(item.id)
-                                                    }} 
-                                                    className="w-5 h-5 text-red-600 hover:text-red-800 cursor-pointer"
-                                                />
-                                            </div>
-                                        </div>
-                                    )}
-                                    
-                                    <h2 className="text-2xl font-bold text-gray-800 line-clamp-2">{item.title}</h2>
-                                    <p className="text-gray-600 mt-2 line-clamp-3">{item.subtitle}</p>
-                                
-                                    <p className="text-sm text-gray-400 mt-4">Publicado em: {new Date(item.created_at).toLocaleDateString('pt-BR')}</p>
+                                    <h2 className="text-lg font-bold text-white line-clamp-2">{item.title}</h2>
+                                    <p className="text-gray-400 mt-2 text-sm line-clamp-3">{item.subtitle}</p>
+                                    <div className="flex justify-between items-center mt-6">
+                                        <p className="text-[10px] text-gray-500 uppercase tracking-wider">{new Date(item.created_at).toLocaleDateString('pt-BR')}</p>
+                                        <ExternalLink size={16} className="text-[#22c55e] opacity-0 group-hover:opacity-100 transition-opacity" />
+                                    </div>
                                 </div>
                             </div>
                         ))}
                     </div>
                     
-                    {/* Últimas Notícias (Barra Lateral) */}
-                    <div className="lg:w-1/3 ">
-                    {isAdmin && (
-                        <button 
-                            className="border-2 rounded-lg pt-1 pb-1 pl-4 pr-4 hover:scale-105 transition-all hover:bg-yellow-400 float-right cursor-pointer mb-4" 
-                            onClick={() => router.push('/pages/newArticle')}>
-                                Novo Artigo
-                        </button>
-                    )}
-    
-                        <h3 className="text-lg font-semibold mb-4 clear-both">Últimas Notícias</h3>
+                    {/* Sidebar de Últimas: Indicador 'Pulse' para efeito real-time */}
+                    <div className="lg:w-1/3">
+                        <h3 className="text-lg font-bold mb-6 text-white flex items-center gap-2">
+                            <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span> Últimos Insights
+                        </h3>
                         <ul className="space-y-4">
                             {secondaryNews.map((news) => (
-                                <li
-                                    key={news.id}
-                                    // AJUSTE 2: Adicionado onClick aqui, senão clicar não fazia nada
-                                    onClick={() => router.push(`/pages/article?id=${news.id}`)}
-                                    className="bg-white overflow-hidden h-32 shadow-md rounded-lg hover:shadow-lg transition-shadow flex cursor-pointer hover:bg-gray-50"
+                                <li key={news.id} onClick={() => router.push(`/pages/article?id=${news.id}`)}
+                                    className="bg-[#0a0b10] border border-gray-800 rounded-lg p-4 hover:border-gray-600 transition-all cursor-pointer flex gap-4 items-center group"
                                 >
-                                    <img 
-                                        // AJUSTE 3: Fallback de imagem aqui também
-                                        src={news.image_url || 'https://via.placeholder.com/150'} 
-                                        className="object-cover w-32 h-full"  
-                                        alt={news.title} 
-                                    />
-                                    <div className="p-3 flex flex-col justify-center">
-                                        <p className="text-xs text-yellow-500 font-bold uppercase">Nickolas Cremasco</p>
-                                        <h4 className="text-sm md:text-base font-semibold text-gray-800 line-clamp-2 leading-tight">{news.title}</h4>
-                                        <p className="text-xs text-gray-400 mt-1">
-                                            {new Date(news.created_at).toLocaleDateString('pt-BR')}
-                                        </p>
+                                    <img src={news.image_url || 'https://via.placeholder.com/150'} className="object-cover w-16 h-16 rounded-md opacity-80 group-hover:opacity-100" alt={news.title} />
+                                    <div>
+                                        <h4 className="text-sm font-semibold text-gray-200 line-clamp-2">{news.title}</h4>
+                                        <p className="text-[10px] text-gray-500 mt-1">{new Date(news.created_at).toLocaleDateString('pt-BR')}</p>
                                     </div>
                                 </li>
                             ))}
                         </ul>
-                        
                     </div>
                 </div>
             </div>
