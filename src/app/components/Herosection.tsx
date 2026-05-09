@@ -162,7 +162,7 @@ export default function HeroSection() {
 
                                 {/* Placeholder para Elemento Visual (Direita em Desktop) */}
                                 {/* Em vez de imagens genéricas, usaremos divs técnicas que simulam código/dashboards */}
-                                <div className="flex-1 w-full flex justify-center items-center p-2 hidden md:flex">
+                                <div className="flex-1 w-full justify-center items-center p-2 hidden md:flex">
                                     {index === 0 && <TerminalDashboard />}
                                     {index === 1 && <DataSchema />}
                                     {index === 2 && <CodeSnippetValue />}

@@ -76,7 +76,7 @@ export default function Navbar() {
                             </button>
                         </li>
                         <li>
-                            <button onClick={() => { router.push('/pages/projects'); setIsMenuOpen(false) }} className='flex items-center gap-2 hover:text-[#22c55e] transition-colors'>
+                            <button onClick={() => { router.push('/pages/contact'); setIsMenuOpen(false) }} className='flex items-center gap-2 hover:text-[#22c55e] transition-colors'>
                                 <BriefcaseBusiness size={18}/> Projetos
                             </button>
                         </li>

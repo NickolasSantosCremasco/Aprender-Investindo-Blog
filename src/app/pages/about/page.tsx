@@ -2,89 +2,140 @@
 import { useRouter } from "next/navigation"
 import Navbar from "@/app/components/Navbar"
 import Footer from "@/app/components/Footer"
+import { TrendingUp, CheckCircle2, Quote } from "lucide-react"
 
 export default function About() {
     const router = useRouter()
 
     return (
-        <>
-            <div><br/></div>
-            <Navbar/>
-            <section className="max-w-screen-xl w-full bg-gradient-to-r from-sky-900 to-sky-950 mx-auto flex flex-col lg:flex-row items-center justify-between border-t border-sky-800 p-8 lg:p-12">
-                {/* Left Content */}
-                <div className="flex-1 lg:pr-8 lg:ml-5 text-center lg:text-left ">
+        <div className="bg-[#050505] min-h-screen text-white">
+            <Navbar />
+            
+            {/* Seção Hero: Democratizando a Liberdade Financeira */}
+            <section className="max-w-screen-xl mx-auto flex flex-col lg:flex-row items-center justify-between py-16 px-8 lg:py-24 border-b border-gray-900">
+                
+                {/* Lado Esquerdo: Conteúdo e Texto */}
+                <div className="flex-1 lg:pr-12 text-center lg:text-left z-10">
+                    <div className="inline-block px-3 py-1 rounded-full border border-[#22c55e]/30 bg-[#22c55e]/10 text-[#22c55e] text-xs font-mono uppercase tracking-widest mb-6">
+                        Aprendiz | Nickolas
+                    </div>
 
-                    <h3 className="text-sm text-yellow-300 uppercase tracking-widest">Aprendiz | Nickolas</h3>
+                    <h1 className="text-4xl lg:text-6xl font-extrabold text-white leading-tight">
+                        Democratizando a <span className="text-[#22c55e]">Liberdade Financeira</span>
+                    </h1>
 
-                    <h1 className="text-3xl lg:text-4xl font-bold text-white mt-4">Temos o Objetivo de Mostrar Como Investir  pode Ser Fácil para Qualquer Tipo De Pessoa!</h1>
+                    <p className="text-gray-400 mt-6 text-lg lg:text-xl leading-relaxed max-w-2xl">
+                        Acreditamos que o conhecimento é a chave. Por isso, simplificamos o mundo dos investimentos através de tecnologia e educação acessível para todos.
+                    </p>
 
-                    <h2 className="text-white mt-4 text-lg lg:text-xl leading-relaxed">Acreditamos que o conhecimento é a chave para a liberdade financeira. Por isso, estamos aqui para simplificar o mundo dos investimentos e torná-lo acessível a todos.</h2>
-
-                    <button onClick={() => router.push('/pages/contact')} className="text-sky-950 font-semibold mt-6 bg-yellow-400 p-3 px-8 rounded-lg hover:bg-yellow-500 hover:scale-105 transition-all transform">
-                        Começe a Investir Hoje!
-                    </button>
-
+                    <div className="mt-10 flex justify-center lg:justify-start">
+                        <button 
+                            onClick={() => router.push('/pages/contact')} 
+                            className="group relative bg-[#22c55e] text-black font-bold py-4 px-10 rounded-xl hover:bg-[#1da851] transition-all transform hover:scale-105 overflow-hidden"
+                        >
+                            <span className="relative z-10">Começar Jornada</span>
+                            <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+                        </button>
+                    </div>
                 </div>
-                {/* Right Content */}
-                <div className="flex-1 flex justify-center lg:justify-end mt-8 lg:mt-0">
-                    <img src="/uploads/Nickolas.png" className="w-64 border-4 shadow-2xl hover:shadow-cyan-500/50 transition-shadow duration-300 mr-24 bg-gradient-to-r from-cyan-400 to-cyan-700 rounded-3xl" alt="Website Creator" />
+
+                {/* Lado Direito: Imagem com Glow Neon */}
+                <div className="flex-1 flex justify-center lg:justify-end mt-12 lg:mt-0 relative">
+                    {/* Efeito de Aura Verde atrás da foto */}
+                    <div className="absolute inset-0 bg-[#22c55e]/20 blur-[100px] rounded-full"></div>
+                    
+                    <div className="relative group">
+                        <img 
+                            src="/uploads/Nickolas.png" 
+                            className="w-72 lg:w-80 rounded-3xl border-2 border-gray-800 grayscale hover:grayscale-0 transition-all duration-500 shadow-2xl relative z-10" 
+                            alt="Nickolas Cremasco" 
+                        />
+                        
+                        {/* Badge Flutuante de Status */}
+                        <div className="absolute -bottom-4 -left-6 bg-[#0a0b10]/90 border border-gray-800 p-4 rounded-2xl shadow-xl z-20 backdrop-blur-sm hidden lg:block border-l-[#22c55e] border-l-4 transition-transform group-hover:-translate-y-2">
+                            <div className="flex items-center gap-2 mb-1">
+                                <TrendingUp className="text-[#22c55e]" size={18} />
+                                <span className="text-[10px] font-mono text-gray-500 uppercase tracking-tighter">Status:</span>
+                            </div>
+                            <p className="text-xs font-bold text-white uppercase italic">Online & Analisando</p>
+                        </div>
+                    </div>
                 </div>
             </section>
-            {/* Testimonials Section */}
-            <section className="max-w-screen-xl mx-auto p-8 lg:p-12 bg-white shadow-2xl mt-8">
-                <div className="text-center">
-                    <h1 className="text-3xl lg:text-4xl font-bold text-sky-950">Depoimentos</h1>
-                    <h2 className="text-gray-600 mt-4 text-lg lg:text-xl">
-                        Pessoas que ajudamos a atingir sua liberdade financeira com apenas compartilhando conhecimento
-                    </h2>
+
+            {/* Seção de Depoimentos: Insight Wall */}
+            <section className="max-w-screen-xl mx-auto py-20 px-8">
+                <div className="text-center mb-16">
+                    <h1 className="text-3xl lg:text-5xl font-bold mb-4">Depoimentos</h1>
+                    <p className="text-gray-500 max-w-2xl mx-auto italic">
+                        Pessoas que ajudamos a atingir sua liberdade financeira apenas compartilhando conhecimento.
+                    </p>
                 </div>
-                {/* People */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
-                    {/* 1 Person */}
-                    <div className="bg-gray-50 p-6 shadow-md hover:shadow-lg rounded-lg transition-shadow duration-300">
-                        <div className="flex items-center gap-4 ">
-                            <img src="/uploads/Nickolas.png" className="w-16 h-16 border-4 border-cyan-400 rounded-full" alt="Testemunho 1" />
-                            <h3 className="font-bold text-xl text-sky-950">Nickolas Cremasco</h3>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {/* Card 1: Nickolas */}
+                    <div className="bg-[#0a0b10] border border-gray-800 p-8 rounded-2xl hover:border-[#22c55e]/40 transition-all group relative overflow-hidden">
+                        <div className="absolute top-4 right-4 text-[#22c55e]/20 group-hover:text-[#22c55e]/40 transition-colors">
+                            <Quote size={40} />
                         </div>
-                        <p className="text-gray-950 mt-4">
-                        &rsquo;&rsquo;Aprender a investir mudou a minha vida! Com o conhecimento que adquiri, consegui alcançar minha independencia financeira e hoje trabalho em busca de divulgar esse conhecimento!&lsquo;&rsquo;
+                        <div className="flex items-center gap-4 mb-6 relative z-10">
+                            <img src="/uploads/Nickolas.png" className="w-14 h-14 rounded-full border-2 border-[#22c55e] object-cover" alt="Nickolas" />
+                            <div>
+                                <div className="flex items-center gap-1">
+                                    <h3 className="font-bold text-white">Nickolas Cremasco</h3>
+                                    <CheckCircle2 size={14} className="text-[#22c55e]" />
+                                </div>
+                                <p className="text-[10px] text-gray-500 font-mono uppercase tracking-widest">Founder | Dev</p>
+                            </div>
+                        </div>
+                        <p className="text-gray-400 text-sm leading-relaxed italic relative z-10">
+                            "Aprender a investir mudou a minha vida! Com o conhecimento que adquiri, alcancei minha independência e hoje trabalho para divulgar esse conhecimento!"
                         </p>
                     </div>
 
-                {/* 2 Person */}
-                    <div className="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
-                        <div className="flex items-center gap-4">
-                            <img 
-                                src="/uploads/gisele.jpeg" 
-                                className="w-16 h-16 border-4 border-cyan-400 rounded-full" 
-                                alt="Nickolas Cremasco" 
-                            />
-                            <h3 className="font-bold text-xl text-sky-950">Gisele S. Silva</h3>
+                    {/* Card 2: Gisele */}
+                    <div className="bg-[#0a0b10] border border-gray-800 p-8 rounded-2xl hover:border-[#22c55e]/40 transition-all group relative overflow-hidden">
+                        <div className="absolute top-4 right-4 text-[#22c55e]/20 group-hover:text-[#22c55e]/40 transition-colors">
+                            <Quote size={40} />
                         </div>
-                        <p className="text-gray-600 mt-4">
-                        &rsquo;&rsquo;Antes, eu não sabia como fazer meu dinheiro trabalhar para mim. Agora, com as estratégias que aprendi, estou colhendo os frutos dos meus investimentos. A independência financeira não é mais um sonho, é a minha realidade!&rsquo;&rsquo;
+                        <div className="flex items-center gap-4 mb-6 relative z-10">
+                            <img src="/uploads/gisele.jpeg" className="w-14 h-14 rounded-full border-2 border-[#22c55e] object-cover" alt="Gisele" />
+                            <div>
+                                <div className="flex items-center gap-1">
+                                    <h3 className="font-bold text-white">Gisele S. Silva</h3>
+                                    <CheckCircle2 size={14} className="text-[#22c55e]" />
+                                </div>
+                                <p className="text-[10px] text-gray-500 font-mono uppercase tracking-widest">Client</p>
+                            </div>
+                        </div>
+                        <p className="text-gray-400 text-sm leading-relaxed italic relative z-10">
+                            "Antes, eu não sabia como fazer meu dinheiro trabalhar para mim. Agora estou colhendo os frutos dos meus investimentos. A independência financeira não é mais um sonho, é realidade!"
                         </p>
                     </div>
 
-
-                    <div className="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
-                        <div className="flex items-center gap-4">
-                            <img 
-                                src="/uploads/janete.png" 
-                                className="w-16 h-16 border-4 border-cyan-400 rounded-full" 
-                                alt="Nickolas Cremasco" 
-                            />
-                            <h3 className="font-bold text-xl text-sky-950">Janete Rodrigues</h3>
+                    {/* Card 3: Janete */}
+                    <div className="bg-[#0a0b10] border border-gray-800 p-8 rounded-2xl hover:border-[#22c55e]/40 transition-all group relative overflow-hidden">
+                        <div className="absolute top-4 right-4 text-[#22c55e]/20 group-hover:text-[#22c55e]/40 transition-colors">
+                            <Quote size={40} />
                         </div>
-                        <p className="text-gray-600 mt-4">
-                        &rsquo;&rsquo;Pensei que era tarde para investir, mas descobri que nunca é. Com o conhecimento que adquiri, transformei minha aposentadoria em uma renda segura. Agora, vivo com mais tranquilidade e independência, aproveitando cada momento ao lado da minha família.&rsquo;&rsquo;
+                        <div className="flex items-center gap-4 mb-6 relative z-10">
+                            <img src="/uploads/janete.png" className="w-14 h-14 rounded-full border-2 border-[#22c55e] object-cover" alt="Janete" />
+                            <div>
+                                <div className="flex items-center gap-1">
+                                    <h3 className="font-bold text-white">Janete Rodrigues</h3>
+                                    <CheckCircle2 size={14} className="text-[#22c55e]" />
+                                </div>
+                                <p className="text-[10px] text-gray-500 font-mono uppercase tracking-widest">Client</p>
+                            </div>
+                        </div>
+                        <p className="text-gray-400 text-sm leading-relaxed italic relative z-10">
+                            "Pensei que era tarde para investir, mas descobri que nunca é. Transformei minha aposentadoria em uma renda segura. Aproveito cada momento ao lado da minha família."
                         </p>
                     </div>
-
                 </div>
             </section>
-            <Footer/>
-            <div><br /></div>
-        </>
+
+            <Footer />
+        </div>
     )
 }
