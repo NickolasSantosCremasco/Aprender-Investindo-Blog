@@ -36,6 +36,13 @@ export default function Navbar() {
         ))
     }
 
+      //logout function
+        const handleLogout = () => {
+            localStorage.removeItem('authToken'); 
+            setIsAuthenticated(false);
+            router.push('/')
+        }
+
     return (
         <header className="sticky top-0 z-50 w-full bg-[#000000] border-b border-gray-900">
             <div className="flex items-center justify-between py-4 px-6 md:px-10 max-w-screen-xl mx-auto">
@@ -76,13 +83,18 @@ export default function Navbar() {
                             </button>
                         </li>
                         <li>
-                            <button onClick={() => { router.push('/pages/contact'); setIsMenuOpen(false) }} className='flex items-center gap-2 hover:text-[#22c55e] transition-colors'>
+                            <button onClick={() => { router.push('/pages/portifolio'); setIsMenuOpen(false) }} className='flex items-center gap-2 hover:text-[#22c55e] transition-colors'>
                                 <BriefcaseBusiness size={18}/> Projetos
                             </button>
                         </li>
                         <li>
                             <button onClick={() => { router.push('/pages/about'); setIsMenuOpen(false) }} className='flex items-center gap-2 hover:text-[#22c55e] transition-colors'>
                                 <Info size={18}/> Sobre
+                            </button>
+                        </li>
+                         <li>
+                            <button onClick={() => { router.push('/pages/contact'); setIsMenuOpen(false) }} className='flex items-center gap-2 hover:text-[#22c55e] transition-colors'>
+                                <BriefcaseBusiness size={18}/> Contato
                             </button>
                         </li>
                     </ul>
