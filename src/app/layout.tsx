@@ -8,6 +8,9 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: "Aprender Investindo",
   description: "Personal Blog",
+  verification: {
+    google: "seNC6ExjoYWqmXyEETUaLJuiK_QKR3dliV72THL5K4Q", 
+  },
 };
 
 export default function RootLayout({
