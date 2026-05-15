@@ -136,7 +136,7 @@ export default function NewArticle() {
                             {loading ? 'Publicando...' : 'Publicar Artigo'}
                         </button>
                     </div>
-                    
+                        
                     {message && (
                         <div className="mt-4 p-2 text-white bg-green-500 rounded-md text-center">
                             {message}

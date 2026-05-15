@@ -9,6 +9,9 @@ const db = new Pool({
 });
 
 const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) {
+    console.error("ERRO CRÍTICO: JWT_SECRET não definida nas variáveis de ambiente!");
+}
 
 export async function POST(req: NextRequest) {
     try {
@@ -68,10 +71,16 @@ export async function POST(req: NextRequest) {
         );
 
     } catch (error) {
-        console.error('Erro ao processar a requisição', error)
-        return NextResponse.json(
-            { error: 'Erro ao salvar no banco de dados' },
-            { status: 500 }
-        );
+      // Isso vai mostrar se é erro de senha, erro de tabela inexistente ou timeout
+    console.error('ERRO DETALHADO NO BACKEND:', {
+        message: error.message,
+        code: error.code,
+        stack: error.stack
+    });
+    
+    return NextResponse.json(
+        { error: `Erro interno: ${error.message || 'Falha no banco de dados'}` },
+        { status: 500 }
+    );
     }
 }
