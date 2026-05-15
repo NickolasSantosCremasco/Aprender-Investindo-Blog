@@ -29,7 +29,7 @@ export default function NewArticle() {
                 image_url: imageUrl 
             };
 
-            const response = await fetch('/api/newArticle', {
+            const response = await fetch('/api/new-article', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
