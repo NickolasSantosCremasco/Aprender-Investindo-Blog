@@ -35,7 +35,7 @@ export default function HeroSection() {
             targetPath: '/consultoria'
         },
         {
-            title: 'ADS Unicsul & Aplicação Real.',
+            title: 'ADS & Aplicação Real.',
             subtitle: 'Relatórios semanais de como aplico arquitetura de software da faculdade no meu próprio SaaS.',
             brand: 'Aprender Investindo Tech',
             brandColor: 'text-amber-400',
@@ -142,7 +142,7 @@ export default function HeroSection() {
                                     <p className={`hero-brand text-xl font-medium tracking-wide mb-2 ${slide.brandColor}`}>
                                         {slide.brand}
                                     </p>
-                                    <h2 className="hero-title text-5xl md:text-6xl font-extrabold leading-tight mb-5 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                                    <h2 className="hero-title  text-5xl md:text-6xl font-extrabold leading-tight mb-5 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
                                         {slide.title}
                                     </h2>
                                     <p className="hero-subtitle text-lg md:text-xl text-gray-300 mb-10 max-w-xl mx-auto md:mx-0">
