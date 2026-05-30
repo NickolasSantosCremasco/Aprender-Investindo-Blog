@@ -4,6 +4,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState, Suspense } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkBreaks from 'remark-breaks';
+import remarkGfm from 'remark-gfm';
 import { ArrowLeft, Calendar, User, Clock } from 'lucide-react';
 
 import Footer from '@/app/components/Footer';
@@ -70,7 +71,6 @@ function ArticleContent() {
                         alt={title}
                         className="w-full h-full object-cover brightness-50 scale-105 transition-transform duration-1000"
                     />
-                    {/* Overlay para legibilidade e fusão com o fundo */}
                     <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent" />
                     
                     <div className="absolute inset-0 flex flex-col justify-end px-6 md:px-16 pb-12">
@@ -99,22 +99,27 @@ function ArticleContent() {
                 </header>
 
                 {/* Área de Conteúdo Estilizada */}
-                <section className="flex flex-col lg:flex-row gap-12 py-16 px-6 md:px-16 bg-[#0a0b10] mt-[-40px] rounded-[40px] relative z-10 border border-gray-800 shadow-2xl">
-                    <div className="flex-grow max-w-3xl mx-auto">
+                <section className="flex flex-col lg:flex-row gap-12 py-16 px-6 md:px-16 bg-[#0a0b10] mt-[-40px] rounded-[40px] relative z-10 border border-gray-800 shadow-2xl mb-20">
+                    <div className="flex-grow max-w-3xl mx-auto w-full">
                         {error ? (
                             <div className="p-8 border border-red-900 bg-red-950/20 text-red-500 rounded-2xl font-mono text-sm">
                                 [FATAL_ERROR]: {error}
                             </div>
                         ) : (
                             <article className="prose prose-invert prose-green max-w-none 
-                                prose-p:text-gray-300 prose-p:leading-relaxed prose-p:text-lg
-                                prose-headings:text-white prose-headings:font-bold
+                                prose-p:text-gray-300 prose-p:leading-relaxed prose-p:text-lg prose-p:mb-6
+                                prose-headings:text-white prose-headings:font-bold prose-headings:mt-8 prose-headings:mb-4
+                                prose-h2:text-2xl md:prose-h2:text-3xl prose-h3:text-xl md:prose-h3:text-2xl
                                 prose-strong:text-[#22c55e] prose-strong:font-bold
-                                prose-code:text-[#22c55e] prose-code:bg-[#111] prose-code:px-2 prose-code:rounded
-                                prose-blockquote:border-l-[#22c55e] prose-blockquote:bg-[#22c55e]/5 prose-blockquote:py-2">
-                                <ReactMarkdown remarkPlugins={[remarkBreaks]}>
+                                prose-ul:list-disc prose-ul:pl-6 prose-ul:mb-6 prose-li:text-gray-300
+                                prose-code:text-[#22c55e] prose-code:bg-[#111] prose-code:px-2 prose-code:py-0.5 prose-code:rounded
+                                prose-blockquote:border-l-4 prose-blockquote:border-l-[#22c55e] prose-blockquote:bg-[#22c55e]/5 prose-blockquote:py-2 prose-blockquote:px-4">
+                                
+                                
+                                <ReactMarkdown remarkPlugins={[remarkBreaks, remarkGfm]}>
                                     {content}
                                 </ReactMarkdown>
+                                
                             </article>
                         )}
                     </div>
