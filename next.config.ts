@@ -5,9 +5,7 @@ require('dotenv').config()
 const nextConfig: NextConfig = {
   reactStrictMode: true, 
 
-
   eslint: {
-
     ignoreDuringBuilds: true,
   },
   typescript: {
