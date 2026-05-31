@@ -90,7 +90,7 @@ export default function NewsSection () {
   if (loading) return <section className="w-full bg-[#050505] py-20 text-center text-gray-500 font-mono">Loading data stream...</section>;
    
     return (
-      <section className="w-full bg-[#050505] text-white py-20 px-6 md:px-12">
+      <section className="w-full bg-[#050505] text-white py-20 px-6 md:px-12" id="newsSection">
             <div className="max-w-screen-xl mx-auto">
                 
                 {/* Header Estilo Dashboard */}

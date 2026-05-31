@@ -24,7 +24,7 @@ export default function HeroSection() {
             brand: 'Aprender Investindo Tech',
             brandColor: 'text-amber-400',
             buttonText: 'Ver Meus Projetos',
-            targetPath: '/projetos'
+            targetPath: '/pages/portifolio'
         },
         {
             title: 'Automação que Escala.',
@@ -32,15 +32,15 @@ export default function HeroSection() {
             brand: 'Aprender Investindo Tech',
             brandColor: 'text-amber-400',
             buttonText: 'Solicitar Consultoria Técnica',
-            targetPath: '/consultoria'
+            targetPath: '/pages/contact'
         },
         {
-            title: 'ADS & Aplicação Real.',
-            subtitle: 'Relatórios semanais de como aplico arquitetura de software da faculdade no meu próprio SaaS.',
+            title: 'Aplicação Real.',
+            subtitle: 'Como aplico todas as metodologias em meus próprios projetos!',
             brand: 'Aprender Investindo Tech',
             brandColor: 'text-amber-400',
-            buttonText: 'Ver Blog do Desenvolvedor',
-            targetPath: '/blog'
+            buttonText: 'Veja o Blog do Desenvolvedor',
+            targetPath: '#newsSection'
         }
     ];
 
