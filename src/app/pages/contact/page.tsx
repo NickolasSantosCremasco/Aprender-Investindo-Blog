@@ -119,8 +119,8 @@ export default function Contact() {
                                     >
                                         <option value="">Nenhum / Feedback Geral</option>
                                         <option value="parceria">Parceria e Afiliação</option>
-                                        <option value="gestao">Ferramentas de Gestão</option>
-                                        <option value="automacao">Automação de Finanças</option>
+                                        <option value="gestao">Contrato Profissional</option>
+                                        <option value="automacao">Automações</option>
                                         <option value="dev">Desenvolvimento de Site/App</option>
                                     </select>
                                     <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-600 text-[10px]">▼</div>

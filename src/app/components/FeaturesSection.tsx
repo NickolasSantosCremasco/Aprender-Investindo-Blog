@@ -5,26 +5,26 @@ export default function Features() {
     const features = [
         {
             id: 1,
-            title: 'Parcerias Tech',
-            description: 'Desenvolvimento colaborativo e consultoria para startups em estágio inicial.',
+            title: 'Parcerias',
+            description: 'Parcerias em criação de conteúdo e contratos de patrocínios',
             icon: <Rocket className="text-[#22c55e] w-8 h-8" />
         },
         {
             id: 2,
-            title: 'Gestão de Dados',
-            description: 'Arquitetura de sistemas financeiros com foco em performance e segurança.',
+            title: 'Contratos Profissionais',
+            description: 'Empresas ou empreendedores em busca de um desenvolvedor capaz de aderir a filosofia da empresa e alcançar ares nunca antes vistos',
             icon: <BarChart3 className="text-[#22c55e] w-8 h-8" />
         },
         {
             id: 3,
-            title: 'Automação (B2B)',
-            description: 'Scripts de prospecção e automação de fluxos de trabalho (n8n/Python).',
+            title: 'Automação',
+            description: 'Scripts de prospecção, automação de fluxos de trabalho e ganho absoluto de tempo.',
             icon: <Bot className="text-[#22c55e] w-8 h-8" />
         },
         {
             id: 4,
             title: 'Fullstack Dev',
-            description: 'Soluções sob medida: React, Next.js e integrações complexas de API.',
+            description: 'Soluções sob medida, criação de sites e desenvolvimento da face digital da empresa.',
             icon: <CodeXml className="text-[#22c55e] w-8 h-8" />
         },
     ];
