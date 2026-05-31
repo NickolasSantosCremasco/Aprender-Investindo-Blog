@@ -35,9 +35,7 @@ export default function Footer() {
                         <a href="mailto:nck.tec.suporte@gmail.com" className="flex items-center gap-2 hover:text-[#22c55e] transition-colors">
                             <Mail size={16}/> nck.tec.suporte@gmail.com
                         </a>
-                        <a href="tel:+5511998989818" className="flex items-center gap-2 hover:text-[#22c55e] transition-colors">
-                            <Phone size={16}/> (11) 99898-9818
-                        </a>
+                      
                     </div>
                     
                     <div className="flex gap-4 mt-4">

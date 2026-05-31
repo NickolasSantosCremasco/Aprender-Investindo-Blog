@@ -104,7 +104,7 @@ export default function Login() {
                         className="w-full bg-[#22c55e] hover:bg-[#1da851] text-black font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2 group relative overflow-hidden shadow-[0_0_20px_rgba(34,197,94,0.2)] hover:shadow-[0_0_30px_rgba(34,197,94,0.4)]"
                     >
                         <span className="relative z-10 flex items-center gap-2 tracking-widest uppercase text-xs">
-                            Entrar no Terminal
+                            Entrar
                             <LogIn size={18} className="group-hover:translate-x-1 transition-transform" />
                         </span>
                         <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
