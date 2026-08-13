@@ -19,14 +19,54 @@ model Post {
   published Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  // Relação 1 Post -> N Web Stories
+  stories   Story[]
 }
 
-// --- NOVO: USUÁRIOS (Para o cadastro funcionar) ---
+// --- USUÁRIOS ---
 model User {
   id        String   @id @default(cuid())
   name      String
   email     String   @unique
-  password  String   
+  password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+// --- WEB STORIES (Focado em Google Discover) ---
+model Story {
+  id              String       @id @default(cuid())
+  postId          String
+  post            Post         @relation(fields: [postId], references: [id], onDelete: Cascade)
+  title           String
+  slug            String       @unique
+  posterPortrait String       // Imagem de capa vertical 3:4 exigida pelo Google
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  // Relação 1 Story -> N Slides
+  slides          StorySlide[]
+}
+
+// --- SLIDES DO WEB STORY ---
+model StorySlide {
+  id        String   @id @default(cuid())
+  storyId   String
+  story     Story    @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  pageOrder Int      // Define a ordem dos slides (1, 2, 3...)
+  imageUrl  String
+  heading   String?
+  paragraph String?  @db.Text
+  ctaText   String?  @default("Ler artigo completo")
+  ctaUrl    String?  // Link de destino para o post do blog
+}
+
+// --- CAPTURA DE LEADS (Retenção) ---
+model Lead {
+  id         String   @id @default(cuid())
+  email      String   @unique
+  sourceType String   @default("article") // "article" ou "story"
+  sourceSlug String?
+  createdAt  DateTime @default(now())
 }
