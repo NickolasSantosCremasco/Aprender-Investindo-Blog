@@ -1,20 +1,28 @@
 import { notFound } from 'next/navigation';
-import { Story, StorySlide, Post, Lead } from '@prisma/client';
+import { Story, StorySlide } from '@prisma/client';
 
-
-// Revalidação a cada 1 hora para balancear cache estático (SEO rápido) e atualizações no DB
+// Revalidação a cada 1 hora (ISR) para alta velocidade e bom SEO
 export const revalidate = 3600;
 
-async function getStoryData(slug: string) {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
-  
-  // Chamada para sua API interna que vamos criar depois
-  const res = await fetch(`${baseUrl}/api/getStory?slug=${slug}`, {
-    next: { revalidate: 3600 }
-  });
+// Tipo que junta o Story com o array de StorySlide do Prisma
+type StoryWithSlides = Story & {
+  slides: StorySlide[];
+};
 
-  if (!res.ok) return null;
-  return res.json() as Promise<{ story: Story; slides: StorySlide[] }>;
+async function getStoryData(slug: string): Promise<StoryWithSlides | null> {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+
+  try {
+    const res = await fetch(`${baseUrl}/api/getStory?slug=${slug}`, {
+      next: { revalidate: 3600 },
+    });
+
+    if (!res.ok) return null;
+    return res.json();
+  } catch (error) {
+    console.error('Erro ao buscar Web Story:', error);
+    return null;
+  }
 }
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
@@ -22,26 +30,25 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   if (!data) return {};
 
   return {
-    title: data.story.title,
+    title: data.title,
     openGraph: {
-      title: data.story.title,
-      images: [data.story.poster_portrait],
+      title: data.title,
+      images: [data.posterPortrait],
     },
   };
 }
 
 export default async function StoryPage({ params }: { params: { slug: string } }) {
-  const data = await getStoryData(params.slug);
+  const story = await getStoryData(params.slug);
 
-  if (!data) {
+  if (!story) {
     notFound();
   }
 
-  const { story, slides } = data;
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://aprenderinvestindo.com.br';
 
   return (
-    <html amp="" lang="pt-BR">
+    <html {...{ amp: '' }} lang="pt-BR">
       <head>
         <meta charSet="utf-8" />
         <script async src="https://cdn.ampproject.org/v0.js"></script>
@@ -57,14 +64,14 @@ export default async function StoryPage({ params }: { params: { slug: string } }
           title={story.title}
           publisher="Aprender Investindo"
           publisher-logo-src={`${siteUrl}/logo.png`}
-          poster-portrait-src={story.poster_portrait}
+          poster-portrait-src={story.posterPortrait}
         >
-          {slides.map((slide, index) => (
+          {story.slides.map((slide, index) => (
             <amp-story-page id={`slide-${index}`} key={slide.id || index}>
               {/* Imagem de Fundo do Slide */}
               <amp-story-grid-layer template="fill">
                 <amp-img
-                  src={slide.image_url}
+                  src={slide.imageUrl}
                   width="720"
                   height="1280"
                   layout="responsive"
@@ -79,10 +86,10 @@ export default async function StoryPage({ params }: { params: { slug: string } }
               </amp-story-grid-layer>
 
               {/* Botão de Call To Action (Redireciona para o Artigo do Blog) */}
-              {slide.cta_url && (
+              {slide.ctaUrl && (
                 <amp-story-cta-layer>
-                  <a href={slide.cta_url} className="button">
-                    {slide.cta_text || 'Ler artigo completo'}
+                  <a href={slide.ctaUrl} className="button">
+                    {slide.ctaText || 'Ler artigo completo'}
                   </a>
                 </amp-story-cta-layer>
               )}
