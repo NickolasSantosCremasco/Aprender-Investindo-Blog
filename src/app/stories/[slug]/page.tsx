@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { Story, StorySlide } from '@/types/blog';
+import { Story, StorySlide, Post, Lead } from '@prisma/client';
 
 
 // Revalidação a cada 1 hora para balancear cache estático (SEO rápido) e atualizações no DB
